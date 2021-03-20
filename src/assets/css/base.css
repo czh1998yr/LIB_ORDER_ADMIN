@@ -1,0 +1,15 @@
+/*全局样式表*/
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, table, th, td {margin:0; padding:0;}
+
+html,body,#app{
+  height: 100%;
+  font-family: 微软雅黑;
+}
+
+/*:root -> 获取根元素html*/
+:root {
+  --color-tint: #47C065;
+  --color-hover: 	#47C065;
+  --color-lihover: #02C874;
+}
