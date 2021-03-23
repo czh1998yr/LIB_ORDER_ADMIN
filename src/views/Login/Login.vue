@@ -5,12 +5,11 @@
 </template>
 
 <script>
-import LoginBox from "@/views/Login/childComps/LoginBox";
-
+import LoginBox from "@/views/Login/ChildComps/LoginBox";
 export default {
   name: "Login",
   components: {
-    LoginBox
+    LoginBox,
   }
 }
 </script>

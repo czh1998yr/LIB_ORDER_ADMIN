@@ -1,8 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+// import * as path from "path";
+
 const Login = () => import('@/views/Login/Login')
-import Home from "@/views/Home/Home";
+const Home = () => import('@/views/Home/Home')
+
+const AboutMe = () => import('@/views/Home/ChildComps/AboutMe')
+const MyQuery = () => import('@/views/Home/ChildComps/MyQuery')
+const Course = () => import('@/views/Home/ChildComps/Course')
+const Order = () => import('@/views/Home/ChildComps/Order')
+const MyOrder = () => import('@/views/Home/ChildComps/MyOrder')
 
 Vue.use(Router)
 
@@ -11,7 +19,7 @@ export default new Router({
   routes:[
     {
       path:'',
-      redirect:'/home',
+      redirect:'/login',
       meta: {
         title:'欢迎使用实验室管理系统'
       }
@@ -22,7 +30,33 @@ export default new Router({
     },
     {
       path:'/home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path:'',
+          redirect:'aboutme'
+        },
+        {
+          path:'aboutme',
+          component: AboutMe
+        },
+        {
+          path:'query',
+          component: MyQuery
+        },
+        {
+          path:'course',
+          component: Course
+        },
+        {
+          path:'order',
+          component: Order
+        },
+        {
+          path:'myorder',
+          component: MyOrder
+        },
+      ]
     }
   ]
 })

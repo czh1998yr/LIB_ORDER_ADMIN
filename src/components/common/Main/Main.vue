@@ -1,18 +1,21 @@
 <template>
   <div id="main">
-    bb
+  <router-view></router-view>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: "Main"
+  name: "Main",
+  components:{
+  }
 }
 </script>
 
 <style scoped>
   #main{
-    background-color: #fff;
+    /*background-color: #fff;*/
 
     float: right;
     position: absolute;

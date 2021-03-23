@@ -2,39 +2,37 @@
   <div id="left-bar">
     <div class="title">
       <i class="fa fa-home"></i>
-      系统功能
+      系统菜单
     </div>
-    <div class="menux" @click="show">
-      <p>
-        <i class="fa fa-info-circle"></i>
-        <i class="fa fa-angle-right point"></i>
-        功能名称
-      </p>
-        <ul><li v-for="item in menux" :key="item.index">{{item}}</li></ul>
+    <div class="menux"><p>
+      <i class="fa fa-info-circle">
+      </i><i class="fa fa-angle-right point"></i>首页
+    </p>
+      <ul>
+        <router-link to="/home/aboutme">
+          <li>个人信息</li>
+        </router-link>
+      </ul>
     </div>
-    <div class="menux" @click="show">
+    <div class="menux">
       <p>
-        <i class="fa fa-info-circle"></i>
-        <i class="fa fa-angle-right point"></i>
-        功能名称2
-      </p>
-      <ul><li v-for="item in menux" :key="item.index">{{item}}</li></ul>
-    </div>
-    <div class="menux" @click="show">
-      <p>
-        <i class="fa fa-info-circle"></i>
-        <i class="fa fa-angle-right point"></i>
-        功能名称3
-      </p>
-      <ul><li v-for="item in menux" :key="item.index">{{item}}</li></ul>
-    </div>
-    <div class="menux" @click="show">
-      <p>
-        <i class="fa fa-info-circle"></i>
-        <i class="fa fa-angle-right point"></i>
-        功能名称4
-      </p>
-      <ul><li v-for="item in menux" :key="item.index">{{item}}</li></ul>
+      <i class="fa fa-info-circle">
+      </i><i class="fa fa-angle-right point"></i>系统功能
+    </p>
+      <ul>
+        <router-link to="/home/course">
+          <li>课程表信息</li>
+        </router-link>
+        <router-link to="/home/query">
+          <li>实验室查询</li>
+        </router-link>
+        <router-link to="/home/order">
+          <li>实验室预约</li>
+        </router-link>
+        <router-link to="/home/myorder">
+          <li>我的预约</li>
+        </router-link>
+      </ul>
     </div>
   </div>
 </template>
@@ -44,7 +42,6 @@ export default {
   name: "LeftBar",
   data() {
     return {
-      menux:['子功能1','子功能2','子功能3','子功能4'],
     }
   },
   methods: {
@@ -82,8 +79,8 @@ export default {
     color: var(--color-tint);
      }
   /*menux中的样式调整*/
-  .menux{
-
+  .menux a{
+    text-decoration:none
   }
   .menux p{
     height: 48px;
@@ -114,7 +111,7 @@ export default {
   }
   .menux ul{
     list-style: none;
-    display: none;
+    /*display: none;*/
   }
   .menux ul li{
     list-style: none;
