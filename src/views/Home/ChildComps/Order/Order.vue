@@ -117,7 +117,7 @@ export default {
             self.lablist = response.data;
           })
           .catch(function (error) {
-            self.$message.error('请求失败')
+            self.$message.error('请求失败!')
           });
     },
     isShow(index, row) {
