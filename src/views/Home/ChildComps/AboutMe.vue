@@ -1,40 +1,50 @@
 <template>
   <div id="aboutme">
     <div class="head">
-      Admin的个人主页
+      <div class="left"></div>
+      <div class="center">{{username}}的个人主页</div>
+      <div class="right"></div>
     </div>
     <div class="message">
-    <table>
-      <th>基本信息</th>
-      <tr>
-        <td>Admin
-          教授
-          研究生导师</td>
-      </tr>
-      <tr>
-        <td>本科学科：管理学
-          研究生学科：管理学
-          工作单位：XXXXX大学</td>
-      </tr>
-      <th>联系方式</th>
-      <tr>
-        <td>通信地址：广西壮族自治区桂林市灵川县</td>
-      </tr>
-      <tr>
-        <td>电子邮箱：123456789@qq.com</td>
-      </tr>
-      <tr>
-        <td>联系电话：15XXXX12345</td>
-      </tr>
-      <tr>
-        <td>办公地点：桂林电子科技大学信息科技学院11201办公室</td>
-      </tr>
-      <th>个人简介：</th>
-        <tr>
-        <td>研究成果申请/授权国家发明专利25/15项，并开展工业生物技术转化。中国化工学会会员、《日用化学工业》杂志编委、四川省科技青年联合会理事。荣获德国BASF-Excellent Scholarship、四川省学术与技术带头人后备人选、西南交通大学青年教师教学竞赛一等奖、唐立新优秀教师奖、唐立新优秀学者奖。指导学生获得全国大学生“挑战杯”科技竞赛省级一等奖/国家级三等奖、四川省“生命之星”科技邀请赛特等奖/一等奖、成都市创新创业大赛三等奖。</td>
-        </tr>
-    </table>
-      <div class="about-img">
+      <div class="m-left">
+        <el-table
+            :data="tableData"
+            stripe>
+          <el-table-column
+              prop="username"
+              label="基本信息"
+              width="100">
+          </el-table-column>
+          <el-table-column
+              prop="edgback"
+              width="100">
+          </el-table-column>
+          <el-table-column
+              prop="workunit"
+              width="300">
+          </el-table-column>
+        </el-table>
+
+        <el-table
+            :data="tableData"
+            stripe>
+          <el-table-column
+              prop="emil"
+              label="联系方式"
+              width="220">
+          </el-table-column>
+          <el-table-column
+              prop="cell"
+              width="220">
+          </el-table-column>
+        </el-table>
+        <el-form label-position="top">
+          <el-form-item label="个人简介">
+          <el-input v-model="brief" type="textarea" autosize style="font-size: 18px;"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="m-right">
         <img src="~assets/img/about-img.jpg" alt="">
       </div>
     </div>
@@ -43,44 +53,72 @@
 
 <script>
 export default {
-  name: "MyDate"
+  name: "AboutMe",
+  data() {
+    return {
+      tableData: [{
+        username: this.$store.getters.getUsername,
+        edgback: '研究生',
+        workunit:'毕业学校：'+'桂林电子科技大学信息科技学院',
+        emil:'邮箱：'+'1553059156@qq.com',
+        cell:'手机号：'+'15777725003',
+      }],
+      brief:'或许外表给人的感觉是这个女孩有点文静，其实不然，生活上我比较乐观积极，热爱体育运动篮球、乒乓球，喜欢文学作品和看电影，喜欢涂鸦，能够和身边的同学朋友打成一片。大家说我看起来每天都充满热情和活力，我一直希望自己能够慢慢成为一个有独立见解的人，所以当有想法时，我就会周密计划，然后在实践中积累经验，也给自己多增添一份经历。'
+    }
+  },
+  computed: {
+    username() {
+      return this.$store.getters.getUsername
+    }
+  }
 }
 </script>
 
 <style scoped>
-  #aboutme{
-    background-color: #f8f8f8;
-    height: 100%;
-  }
-  .head{
-    background: url("~assets/img/head.jpg") no-repeat;
-    height: 25%;
-    text-align: center;
+#aboutme{
+  background-color: #f8f8f8;
+  height: 100%;
+}
+.head{
+  background-color: #fff;
+  text-align: center;
+  line-height: 100px;
+  display: flex;
+}
+.left,.right{
+  width: 200px;
+}
+.left{
+  background: url("~assets/img/aboutbarimg.png") no-repeat;
+  background-size: 80% 80%;
+}
+.right{
+  background: url("~assets/img/aboutbarimg.png") no-repeat;
+  transform: rotateY(180deg);
+  background-size: 80% 80%;
+}
+.center{
+  flex: 1;
+  color: var(--color-tint);
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+.message{
+  background-color: #FFF;
+  height: 85%;
+  margin-top: 10px;
+  display: flex;
+  line-height: 50px;
+}
+.m-left{
+  width: 50%;
+  height: 100%;
+  padding-left: 200px;
+}
+.m-right img{
+  margin-top: 100px;
+  margin-left: 100px;
+}
 
-    line-height: 200px;
-    color: var(--color-tint);
-    font-size: 35px;
-    font-weight: 700;
-  }
-  .message{
-    width: 1650px;
-    background-color: #fff;
-    height: 70%;
-  }
-  .message table{
-    width: 650px;
-    line-height:30px;
-    position: relative;
-    top:10%;
-    left: 15%;
-    font-size: 20px;
-  }
-  .message table th{
-    text-align:left;
-  }
-  .about-img{
-    position: absolute;
-    bottom: 15%;
-    left: 65%;
-  }
 </style>

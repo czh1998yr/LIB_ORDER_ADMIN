@@ -1,12 +1,12 @@
 <template>
-  <div id="order">
-    我是课程预约信息
+  <div id="index">
+    <h2>我是首页</h2>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Order"
+  name: "index"
 }
 </script>
 

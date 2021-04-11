@@ -9,7 +9,7 @@ html,body,#app{
 
 /*:root -> 获取根元素html*/
 :root {
-  --color-tint: #47C065;
+  --color-tint: #85CE61;
   --color-hover: 	#47C065;
   --color-lihover: #02C874;
 }

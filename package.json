@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "element-ui": "^2.15.1",
     "font-awesome": "^4.7.0",
+    "js-md5": "^0.7.3",
     "vue": "^2.6.11",
-    "vue-router": "^3.5.1"
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -30,13 +33,15 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
+      "plugin:vue/essential"
     ],
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-debugger": "off",
+      "no-console": "off"
+    }
   },
   "browserslist": [
     "> 1%",

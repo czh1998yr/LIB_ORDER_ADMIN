@@ -12,18 +12,40 @@
               <option value="opel">请选择</option>
             </select>
           </td>
+          <td>
+            节数：
+            <select class="select">
+              <option value="opel">请选择</option>
+            </select>
+          </td>
         </tbody>
+      <div class="query-button">
+        <button>查询</button>
+        <button>清空</button>
+      </div>
+    </div>
+    <div class="master-list">
+      <master-list>
+        <button slot="handle">跳转预约</button>
+      </master-list>
     </div>
   </div>
 </template>
 
 <script>
+import MasterList from "@/views/Home/ChildComps/MasterList";
 export default {
-  name: "MyQuery"
+  name: "MyQuery",
+  components: {
+    MasterList
+  }
 }
 </script>
 
 <style scoped>
+  #query{
+    height: 90%;
+  }
 .query-title{
   height: 30px;
   background-color: var(--color-tint);
@@ -54,15 +76,15 @@ select{
   margin-right: 100px;
   letter-spacing:30px;
 }
-button{
-  background-color: var(--color-tint);
-  border:none;
-  border-radius: 5px;
-  color: #fff;
-  padding: 5px;
-  margin:0px 20px 0px 20px;
-  box-shadow: 2px 2px 5px #AAAAAA;
-}
+/*  .query-button button{*/
+/*  background-color: var(--color-tint);*/
+/*  border:none;*/
+/*  border-radius: 5px;*/
+/*  color: #fff;*/
+/*  padding: 5px;*/
+/*  margin:0px 20px 0px 20px;*/
+/*  box-shadow: 2px 2px 5px #AAAAAA;*/
+/*}*/
 .query-query tbody{
   float: right;
   position: absolute;
@@ -72,4 +94,14 @@ button{
 .query-query tbody td{
   padding: 0px 20px 0px 20px;
 }
+/*.master-list{*/
+/*  width: 1650px;*/
+/*  margin-top: 10px;*/
+/*  top: 5%;*/
+/*  height: 730px;*/
+/*  background-color: #fff;*/
+/*  !*border: 2px solid var(--color-tint);*!*/
+/*  !*overflow: hidden;*!*/
+/*}*/
+
 </style>

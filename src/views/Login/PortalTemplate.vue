@@ -1,21 +1,17 @@
 <template>
-  <div id="login">
-  <login-box></login-box>
+  <div id="portal-template">
+    <slot></slot>
   </div>
 </template>
 
 <script>
-import LoginBox from "@/views/Login/ChildComps/LoginBox";
 export default {
-  name: "Login",
-  components: {
-    LoginBox,
-  }
+  name: "portal-template",
 }
 </script>
 
 <style scoped>
-  #login{
+  #portal-template{
     background-image: url("~assets/img/login.jpg");
     background-repeat: no-repeat;
     height: 100%;

@@ -1,9 +1,10 @@
 <template>
   <div id="class-table">
-    <div class="title">桂林电子科技大学信息科技学院2020-2021学年下学期学生课程表</div>
+    <div class="title"><slot name="title"></slot></div>
     <div class="form">
       <table>
-        <thead><tr>
+        <thead>
+        <tr>
         <th v-for="item in Day" :key="item">{{item}}</th>
         </tr>
         </thead>
@@ -63,26 +64,21 @@ export default {
   }
   .form table{
     width: 80%;
-    margin-left: 150px;
+    margin:0 auto;
   }
   .form table th{
     background-color: var(--color-tint);
     color: #fff;
-    height: 40px;
-    line-height: 40px;
-    font-weight: 700;
-    text-align: center;
-    font-size: 20px;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
   }
   .form table tr{
     height: 75px;
-    font-weight: 700;
+    font-weight: 400;
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
   }
   .form table th,tr,td{
-    border: 1px solid var(--color-tint);
+    border: 1px dashed var(--color-tint);
   }
 </style>

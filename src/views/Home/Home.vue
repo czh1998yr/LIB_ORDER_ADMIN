@@ -1,19 +1,19 @@
 <template>
   <div id="home">
-    <tab-bar/>
+    <nav-bar/>
     <left-bar/>
     <mains/>
   </div>
 </template>
 
 <script>
-import TabBar from "@/components/common/TabBar/TabBar";
+import NavBar from "@/components/common/Navbar/NavBar";
 import LeftBar from "@/components/common/LeftBar/LeftBar";
 import Mains from "@/components/common/Main/Main";
 export default {
   name: "Home",
   components: {
-    TabBar,
+    NavBar,
     LeftBar,
     Mains
   }
