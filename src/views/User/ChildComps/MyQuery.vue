@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import MasterList from "@/views/Home/ChildComps/MasterList";
+import MasterList from "@/views/User/ChildComps/MasterList";
 export default {
   name: "MyQuery",
   components: {

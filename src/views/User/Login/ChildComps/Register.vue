@@ -6,28 +6,28 @@
              :model="user"
              :rules="rules"
               ref="userForm">
-      <el-form-item prop="username">
+      <el-form-item prop="username" label-width="0px">
         <el-input name="username"
                   placeholder="请输入用户名"
                   autofocus
                   v-model.trim="user.username"
                   prefix-icon="el-icon-user-solid"/>
       </el-form-item>
-      <el-form-item prop="password">
+      <el-form-item prop="password" label-width="0px">
       <el-input name="password"
                 placeholder="请输入密码"
                 v-model.trim="user.password"
                 show-password
                 prefix-icon="el-icon-lock"/>
       </el-form-item>
-      <el-form-item prop="repassword">
+      <el-form-item prop="repassword" label-width="0px">
         <el-input name="repassword"
                   placeholder="请确认密码"
                   v-model.trim="user.repassword"
                   show-password
                   prefix-icon="el-icon-lock"/>
       </el-form-item>
-      <el-form-item prop="email">
+      <el-form-item prop="email" label-width="0px">
         <el-input name="email"
                   placeholder="请输入邮箱"
                   v-model.trim="user.email"
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import PortalTemplate from "@/views/Login/PortalTemplate";
+import PortalTemplate from "views/User/Login/PortalTemplate";
 export default {
   name: "LoginBox",
   components: {
@@ -140,20 +140,22 @@ export default {
 
 <style scoped>
   .box{
-  background-color: rgba(255,255,255,.8);
-  position: fixed;
-  top: 20%;
-  bottom: 28%;
-  left: 38%;
-  right: 38%;
-  border-radius: 5px;
+    background-color: rgba(255, 255, 255, .8);
+    width: 400px;
+    height: 500px;
+    border-radius: 5px;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50% , -50%);
 }
   .title{
     font-size: 35px;
     font-weight: bold;
     box-sizing: border-box;
     text-align: center;
-    margin-top: 20px;
+    padding-top: 20px;
   }
   .el-form-item/deep/{
     text-align: center;
@@ -161,7 +163,6 @@ export default {
   .el-input/deep/{
     width: 70%;
     line-height:60px;
-    margin-left: -80px;
   }
   .el-row/deep/{
     text-align: center;

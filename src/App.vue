@@ -8,7 +8,13 @@
 
 export default {
   name: 'App',
-  components: {
+  mounted() {
+    window.addEventListener('unload',this.saveState)
+    },
+  methods: {
+    saveState() {
+      // window.sessionStorage.setItem('state',JSON.stringify(this.$store.state))
+    }
   }
 }
 </script>

@@ -1,12 +1,13 @@
 <template>
   <portal-template>
     <div class="login">
-      <div class="title">实验室管理系统</div>
       <el-form ref="userForm"
                :model="user"
                :rules="rules"
-               label-width="80px">
-        <el-form-item prop="username">
+               label-width="80px"
+               class="login_from">
+        <div class="title">欢迎来到管理员登录界面</div>
+        <el-form-item label-width="0px" prop="username">
           <el-input v-model="user.username"
                     autofocus
                     class="username"
@@ -14,31 +15,27 @@
                     placeholder="请输入用户名"
                     prefix-icon="el-icon-user-solid"/>
         </el-form-item>
-        <el-form-item prop="password">
+        <el-form-item label-width="0px" prop="password">
           <el-input v-model="user.password"
                     class="password"
                     name="password"
                     placeholder="请输入密码"
-                    show-password
-                    prefix-icon="el-icon-lock"/>
+                    prefix-icon="el-icon-lock"
+                    show-password/>
         </el-form-item>
       </el-form>
-      <el-row>
-        <el-button type="success"
-                   @click="login('userForm')">确认
-        </el-button>
-      </el-row>
       <div class="register-link">
-        <router-link to="/register">
-          <el-link icon="el-icon-edit" type="success">注册新用户</el-link>
-        </router-link>
-      </div>
+        <div>
+          <el-button type="success" @click="login('userForm')">确认
+          </el-button>
+        </div>
+    </div>
     </div>
   </portal-template>
 </template>
 
 <script>
-import PortalTemplate from "@/views/Login/PortalTemplate";
+import PortalTemplate from "@/views/User/Login/PortalTemplate";
 
 export default {
   name: "Login",
@@ -50,7 +47,7 @@ export default {
       user: {
         username: '',
         password: '',
-        // action:'login'
+        token:''
       },
       rules: {
         username: [
@@ -67,12 +64,11 @@ export default {
       let self = this;
       this.$refs[userForm].validate((valid) => {
         if (valid) {
-          self.$store.dispatch('login', {username:self.user.username, password: self.user.password})
+          self.$store.dispatch('login', {username: self.user.username, password: self.user.password})
               .then(response => {
-                console.log(response);
+                window.sessionStorage.setItem("token", response.data.data)
                 self.$message.success(response.data.message)
-                console.log(response);
-                self.$router.replace('/home')
+                self.$router.replace('/admin_home')
               })
               .catch(response => {
                 self.$message.error(response.data.message)
@@ -87,53 +83,44 @@ export default {
 <style scoped>
 .login {
   background-color: rgba(255, 255, 255, .8);
-  position: fixed;
-  top: 30%;
-  bottom: 30%;
-  left: 38%;
-  right: 38%;
+  width: 400px;
+  height: 350px;
   border-radius: 5px;
-}
 
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50% , -50%);
+}
 .title {
-  font-size: 35px;
+  font-size: 25px;
   font-weight: bold;
   box-sizing: border-box;
   text-align: center;
-  margin-top: 20px;
+  padding-top: 20px;
 }
-
-.el-form-item /deep/ {
-  text-align: center;
-  margin-top: 20px;
+.login_from{
+  padding: 0 60px;
+  line-height: 70px;
 }
-
-.el-input /deep/ {
-  width: 70%;
-  line-height: 60px;
-  margin-left: -80px;
-}
-
-.el-row /deep/ {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.el-button /deep/ {
-  width: 60%;
+.el-button{
+  width: 50%;
   font-size: 15px;
+  margin: 0 auto;
 }
-
+.el-row/deep/{
+  text-align: center;
+}
 /deep/ .el-input__inner:focus {
   border-color: black;
 }
-
+/deep/ .el-form-item{
+  padding-top: 20px;
+}
 a {
   text-decoration: none;
 }
-
 .register-link {
   text-align: center;
-  margin-top: 20px;
 }
 </style>

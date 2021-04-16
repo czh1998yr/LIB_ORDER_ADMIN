@@ -1,6 +1,6 @@
 <template>
   <div id="order">
-    <div class="head">课程表信息</div>
+    <div class="head">实验室预约</div>
     <div class="query">
       <div class="left">
         实验室所属专业：
@@ -8,7 +8,7 @@
       </div>
       <div class="center"></div>
       <div class="right">
-        <el-button type="success" @click="check">查询</el-button>
+        <el-button type="success" @click="query">查询</el-button>
         <el-button type="success">清空</el-button>
       </div>
     </div>
@@ -67,7 +67,7 @@
 <script>
 
 import qs from "qs";
-import Popup from "@/views/Home/ChildComps/Order/Popup";
+import Popup from "@/views/User/ChildComps/Order/Popup";
 
 export default {
   name: "Order",
@@ -97,7 +97,7 @@ export default {
   },
   created() {
     let self = this
-    self.axios.post('/api/lab_table')
+    self.axios.post('/lab_table')
         .then(function (response) {
           self.lablist = response.data.labList;
           self.current = response.data.current;
@@ -110,11 +110,11 @@ export default {
         });
   },
   methods: {
-    check() {
+    query() {
       let self = this
-      self.axios.post('/labServlet', qs.stringify({major:"%"+self.getmajor+"%",action: self.getMajor}))
+      self.axios.post('/lab_query', qs.stringify({major:self.getmajor}))
           .then(function (response) {
-            self.lablist = response.data;
+            self.lablist = response.data[0].querydata;
           })
           .catch(function (error) {
             self.$message.error('请求失败!')
@@ -134,7 +134,7 @@ export default {
     handleSizeChange(newitem) {
       let self = this
       self.item = newitem
-      self.axios.post('/api/lab_table',qs.stringify({item:newitem}))
+      self.axios.post('/lab_table',qs.stringify({item:newitem}))
           .then(function (response) {
             self.lablist = response.data.labList;
             self.current = response.data.current;
@@ -149,7 +149,7 @@ export default {
     handleCurrentChange(newcurrent) {
       let self = this
       self.current = newcurrent
-      self.axios.post('/api/lab_table',qs.stringify({pn:newcurrent}))
+      self.axios.post('/lab_table',qs.stringify({pn:newcurrent}))
           .then(function (response) {
             self.lablist = response.data.labList;
             self.current = response.data.current;

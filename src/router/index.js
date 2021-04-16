@@ -1,15 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const Login = () => import('@/views/Login/ChildComps/Login')
-const Register = () => import('@/views/Login/ChildComps/Register')
-const Home = () => import('@/views/Home/Home')
+//普通用户登录界面
+const Login = () => import('@/views/User/Login/ChildComps/Login')
+const Username = () => import('views/User/UserHome')
+const Welcome = () => import('@/views/User/ChildComps/Welcome')
+const AboutMe = () => import('@/views/User/ChildComps/AboutMe')
+const Course = () => import('@/views/User/ChildComps/Course')
+const Order = () => import('@/views/User/ChildComps/Order/Order')
+const MyOrder = () => import('@/views/User/ChildComps/MyOrder')
+//管理员登录界面
+const AdminLogin = () => import('@/views/Admin/Login/ChildComps/AdminLogin')
+const AdminHome = () => import('@/views/Admin/AdminHome')
+const AdminWelcome = () => import('@/views/Admin/ChildComps/AdminWelcome')
+const UserControl = () => import('@/views/Admin/ChildComps/UserControl')
+const LabControl = () => import('@/views/Admin/ChildComps/LabControl')
 
-const Welcome = () => import('@/views/Home/ChildComps/Welcome')
-const AboutMe = () => import('@/views/Home/ChildComps/AboutMe')
-const Course = () => import('@/views/Home/ChildComps/Course')
-const Order = () => import('@/views/Home/ChildComps/Order/Order')
-const MyOrder = () => import('@/views/Home/ChildComps/MyOrder')
+
+
+
 
 Vue.use(Router)
 
@@ -31,15 +40,16 @@ const router = new Router({
       }
     },
     {
-      path:'/register',
-      component: Register,
+      path:'/admin_login',
+      component: AdminLogin,
       meta: {
         isLogin: false
       }
     },
+      //普通用户
     {
       path:'/home',
-      component: Home,
+      component: Username,
       meta: {
         isLogin: true
       },
@@ -69,22 +79,43 @@ const router = new Router({
           component: MyOrder
         },
       ]
+    },
+    //管理员
+    {
+      path:'/admin_home',
+      component:AdminHome,
+      redirect:'admin_welcome',
+      children:[
+        {
+          path: '/admin_welcome',
+          component:AdminWelcome
+        },
+        {
+          path:'/usercontrol',
+          component:UserControl
+        },
+        {
+          path:'/labcontrol',
+          component:LabControl
+        }
+      ]
     }
   ],
-
 })
 
-//挂载路由导航守卫
-// router.beforeEach(((to, from, next) => {
+// //挂载路由导航守卫
+// router.beforeEach((to, from, next) => {
+//   let tokenStr = window.sessionStorage.getItem('token')
 // //  to,将要访问的路径、from:从哪里跳转出来、next:是一个函数，表示放行
-//   if(to.path === '/login' || to.path === '/register') return next();
-//   {
-//   //获取token
-//     const tokenStr = window.sessionStorage.getItem('token')
-//     if(!tokenStr)return next ('/login')
-//           next()
-//   }
-// }
-// ))
+//   if(to.path === '/logout') {window.sessionStorage.clear();next({path: '/login'})}
+//   if(to.path === '/login' || to.path === '/admin_login' ){
+//     if(tokenStr === null) {
+//       next();
+//     }else{
+//       next({path: '/home'})
+//     }
+//   }else if(tokenStr === null) return next({path:'/login'})
+//   next();
+// })
 
 export default router;

@@ -1,11 +1,23 @@
 <template>
-  <div id="left-bar">
-    <div class="title">
-      <i class="fa fa-home"></i>
-      功能区
+  <home>
+    <!--    头部内容-->
+    <div class="title" slot="left">
+      欢迎使用实验室预约系统
     </div>
-
-    <div class="fn">
+    <div class="right" slot="right">
+      <el-dropdown class="user">
+      <span class="el-dropdown-link">
+        <i class="el-icon-user-solid"></i>
+        {{ username }}
+        <i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
+    <!--      侧边栏内容-->
+    <div class="aside" slot="aside">
       <el-menu :default-openeds="['1', '2']">
         <el-submenu index="1">
           <template slot="title"><i class="el-icon-s-custom"></i>首页</template>
@@ -32,51 +44,44 @@
         </el-submenu>
       </el-menu>
     </div>
-  </div>
+    <!--    主体内容-->
+    <div class="main" slot="main">
+      <router-view></router-view>
+    </div>
+  </home>
 </template>
-<script>
 
+<script>
+import Home from "components/common/Home";
 export default {
-  name: "LeftBar",
-  data() {
-    return {
+  name: "UserHome",
+  components: {
+    Home
+  },
+  computed: {
+    username() {
+      return this.$store.getters.getUser
     }
   },
   methods: {
-    show(e) {
-      this.toggle.toggle(e)
-    },
+    logout() {
+    }
   }
 }
 </script>
 
 <style scoped>
-#left-bar{
-  width: 220px;
-  background-color: #fff;
-  border-right: 1px solid #e1e1e1;
-
-  float: left;
-  position: absolute;
-  left: 0;
-  bottom: 0px;
-  top: 100px;
-}
-/*title的样式调整*/
 .title{
-  height: 48px;
-  line-height: 48px;
-  background-color: rgba(245,245,245,.8);
-  border-bottom: 1px solid #e1e1e1;
-
-  font-size: 18px;
-  color: #333;
+  color: #fff;
   font-weight: bold;
-  text-align: center;
+  font-size: 25px;
+  letter-spacing:2px;
 }
-i{
-   color: var(--color-tint);
- }
+.el-dropdown-link /deep/ {
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}
 /*menux中的样式调整*/
 a{
   width:100%;
@@ -90,11 +95,13 @@ a{
 a:hover{
   cursor: pointer;
 }
-.fn ul{
+.aside ul{
   padding: 0px;
 }
-.fn li{
+.aside li{
   padding: 0px !important;
 }
-
+i{
+  color: var(--color-tint);
+}
 </style>

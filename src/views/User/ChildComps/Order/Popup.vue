@@ -3,7 +3,7 @@
   <el-dialog
       :title="title"
       :visible.sync="showDialog"
-      width="30%"
+      width="35%"
       @close="handleClose">
 
 
@@ -20,31 +20,32 @@
           </el-input>
         </div>
         <div>
-          <el-form-item label="请选择起止时间:" prop="value1">
+          <el-form-item label="请选择起止日期:" prop="value1">
             <el-date-picker
                 v-model="center.value1"
                 type="daterange"
                 value-format="yyyy-MM-dd"
-                range-separator="-"
                 start-placeholder="开始日期"
-                end-placeholder="结束日期">
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions">
             </el-date-picker>
           </el-form-item>
         </div>
         <div>
 
-          <el-form-item label="请选择预约节数:" prop="value2">
-            <el-select v-model="center.value2" multiple placeholder="请选择">
-              <el-option
-                  v-for="item in center.options"
-                  :key="item.value"
-                  :label="item.value"
-                  :value="item.value">
-              </el-option>
-              <p style="text-align: center; color: darkgrey;">如果预约多节、可直接多选</p>
-            </el-select>
+          <el-form-item label="请选择预约时间:" prop="value2">
+            <el-time-picker
+                v-model="center.value2"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                range-separator=""
+                format="HH:mm"
+                value-format="HH:mm:ss"
+                :is-range="true">
+            </el-time-picker>
           </el-form-item>
-
+          {{center.value1}}
+          {{center.value2}}
         </div>
 
         <div style="margin-top: -20px">
@@ -70,7 +71,8 @@
 </template>
 
 <script>
-
+import qs from "qs";
+import { publicMethod } from "@/common/PublicMethod";
 export default {
   name: "Popup",
   data() {
@@ -80,21 +82,10 @@ export default {
       title:'实验室预约',
 
       center: {
-        value1: [],
+        value1: '',
         value2: '',
-        options: [{
-          value: '一、二节',
-        }, {
-          value: '三、四节',
-        }, {
-          value: '五、六节',
-        }, {
-          value: '七、八节',
-        }, {
-          value: '九、十节',
-        }],
       },
-      username: this.$store.getters.getUsername,
+      username: this.$store.getters.getUser,
       starttime:'',
       endtime:'',
 
@@ -112,10 +103,23 @@ export default {
           }
         ],
         value2: [
-          { required: true,
+          {
             type: 'array',
-            message: '请至少选择一个预约节数'}
+            required: true,
+            message: '请选择日期区间',
+            fields: {
+              //tpye类型试情况而定,所以如果返回的是date就改成date
+              0: { type: 'string', required: true, message: '请选择开始日期' },
+              1: { type: 'string', required: true, message: '请选择结束日期' }
+            }
+          }
         ],
+      },
+      //限制当天之前的日期不可选
+      pickerOptions:{
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        }
       }
     }
   },
@@ -136,8 +140,20 @@ export default {
       let self = this
       this.$refs[ruleForm].validate((valid) => {
         if (valid) {
-          this.starttime = this.center.value1[0],
-          this.endtime = this.center.value1[1]
+          console.log(self.starttime);
+          console.log(self.endtime);
+          self.starttime=publicMethod.getTimestamp(self.center.value1[0] + ' '+self.center.value2[0])
+          self.endtime=publicMethod.getTimestamp(self.center.value1[1] + ' ' + self.center.value2[1])
+          self.axios.post('/order',qs.stringify({username:self.username,
+            labname:self.chooseName,
+            starttime:self.starttime,endtime:self.endtime}))
+          .then(function (response) {
+            self.$message.success(response.data.message)
+            console.log(response);
+            self.showDialog = false
+          }).catch(err =>{
+            console.log(response+'失败');
+          })
         } else {
         self.$message.error('提交失败，请正确输入预约信息！！')
           return false;

@@ -13,3 +13,14 @@ html,body,#app{
   --color-hover: 	#47C065;
   --color-lihover: #02C874;
 }
+
+.el-breadcrumb{
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+.el-table{
+  margin-top: 15px;
+}
+.el-pagination{
+margin-top: 15px;
+}

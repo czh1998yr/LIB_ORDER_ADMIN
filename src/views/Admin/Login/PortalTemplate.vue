@@ -13,6 +13,7 @@ export default {
 <style scoped>
   #portal-template{
     background-image: url("~assets/img/login.jpg");
+    background-attachment:fixed;
     background-repeat: no-repeat;
     height: 100%;
     background-size: 100% 100%;
