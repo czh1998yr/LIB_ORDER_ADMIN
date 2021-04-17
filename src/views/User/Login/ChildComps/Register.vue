@@ -3,34 +3,34 @@
   <div class="box">
     <div class="title">注册新用户</div>
     <el-form label-width="80px"
-             :model="user"
+             :model="lab"
              :rules="rules"
               ref="userForm">
-      <el-form-item prop="username" label-width="0px">
-        <el-input name="username"
-                  placeholder="请输入用户名"
+      <el-form-item prop="name" label-width="0px">
+        <el-input name="name"
+                  placeholder="请输入实验室名称"
                   autofocus
-                  v-model.trim="user.username"
+                  v-model.trim="lab.name"
                   prefix-icon="el-icon-user-solid"/>
       </el-form-item>
-      <el-form-item prop="password" label-width="0px">
-      <el-input name="password"
-                placeholder="请输入密码"
-                v-model.trim="user.password"
+      <el-form-item prop="major" label-width="0px">
+      <el-input name="major"
+                placeholder="请输入实验室所属专业"
+                v-model.trim="lab.major"
                 show-password
                 prefix-icon="el-icon-lock"/>
       </el-form-item>
-      <el-form-item prop="repassword" label-width="0px">
-        <el-input name="repassword"
-                  placeholder="请确认密码"
-                  v-model.trim="user.repassword"
+      <el-form-item prop="num" label-width="0px">
+        <el-input name="num"
+                  placeholder="请输入实验室编号"
+                  v-model.trim="lab.num"
                   show-password
                   prefix-icon="el-icon-lock"/>
       </el-form-item>
-      <el-form-item prop="email" label-width="0px">
-        <el-input name="email"
-                  placeholder="请输入邮箱"
-                  v-model.trim="user.email"
+      <el-form-item prop="state" label-width="0px">
+        <el-input name="state"
+                  placeholder="请输入实验室状态（默认空闲）"
+                  v-model.trim="lab.state"
                   prefix-icon="el-icon-message"/>
       </el-form-item>
     </el-form>
@@ -50,11 +50,11 @@ export default {
   },
   data() {
     return {
-      user: {
-        username:'',
-        password:'',
-        repassword:'',
-        email:'',
+      lab: {
+        name:'',
+        major:'',
+        num:'',
+        state:'空闲'
       },
       rules:{
       username:[
