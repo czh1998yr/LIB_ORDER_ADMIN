@@ -93,7 +93,7 @@
       </el-table>
       <div style="width: 100%;text-align: center; margin-top: 15px">
         <el-button type="success" @click="resetting()" plain v-show="submitshow">重置</el-button>
-      <el-button type="success" @click="submit()" v-show="submitshow">提交</el-button>
+        <el-button type="success" @click="submit()" v-show="submitshow">提交</el-button>
       </div>
       <!--        分页区域-->
       <el-pagination
@@ -113,7 +113,7 @@
 import qs from 'qs'
 
 export default {
-  name: "OrderControl",
+  name: "LabStateControl",
   computed: {
     username() {
       return this.$store.getters.getUser
@@ -269,26 +269,26 @@ export default {
       let self = this
       let orders = JSON.stringify(self.orders)
       self.$confirm('此操作将预约该实验室, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          self.axios.post('/order',orders,{headers:{'Content-Type': 'application/json'}})
-          .then(res => {
-            self.checkLab();
-            self.adduserorders();
-            self.$message.success("恭喜您，预约成功！")
-          })
-          .catch(err => {
-            self.$message.success("预约失败，请稍后重试！")
-          })
-        }).catch(() => {
-          self.resetting();
-          self.$message({
-            type: 'info',
-            message: '已取消预约'
-          });
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        self.axios.post('/order',orders,{headers:{'Content-Type': 'application/json'}})
+            .then(res => {
+              self.checkLab();
+              self.adduserorders();
+              self.$message.success("恭喜您，预约成功！")
+            })
+            .catch(err => {
+              self.$message.success("预约失败，请稍后重试！")
+            })
+      }).catch(() => {
+        self.resetting();
+        self.$message({
+          type: 'info',
+          message: '已取消预约'
         });
+      });
     },
     //重置操作
     resetting() {
@@ -305,9 +305,9 @@ export default {
       }
       let userOrders = JSON.stringify(self.userorders)
       self.axios.post('/adduserorders',userOrders,{headers:{'Content-Type': 'application/json'}})
-      .then(res => {
-        console.log(userOrders);
-      }).catch(err => {
+          .then(res => {
+            console.log(userOrders);
+          }).catch(err => {
         console.log(err);
       })
       self.userorders = []

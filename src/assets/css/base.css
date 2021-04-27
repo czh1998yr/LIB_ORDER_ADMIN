@@ -24,3 +24,6 @@ html,body,#app{
 .el-pagination{
 margin-top: 15px;
 }
+.el-calendar-table .el-calendar-day{
+ height: 62px !important;
+}

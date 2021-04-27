@@ -1,179 +1,128 @@
 <template>
-  <div id="myorder">
-    <div class="head">
-      <div class="left"></div>
-      <div class="center">我的预约</div>
-      <div class="right"></div>
-    </div>
-    <div class="orders-list">
-      <el-table
-          :data="lablist"
-          style="width: 100%">
-        <el-table-column
-            label="序号"
-            type="index"
-            width="100px">
-        </el-table-column>
-        <el-table-column
-            label="实验室名称">
+  <div>
+    <!--    面包屑导航区-->
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/home/welcome' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>系统功能</el-breadcrumb-item>
+      <el-breadcrumb-item>我的预约</el-breadcrumb-item>
+    </el-breadcrumb>
+    <!--    卡片视图区-->
+    <el-card class="card">
+      <!--        标题区-->
+      <div class="title">
+        个人历史预约记录
+        <el-divider><i class="el-icon-position"></i></el-divider>
+      </div>
+      <!--      用户列表去-->
+      <el-table :data="orderslist" border stripe>
+        <el-table-column type="index"></el-table-column>
+        <el-table-column label="预约人" prop="username"></el-table-column>
+        <el-table-column label="实验室名称" prop="labname"></el-table-column>
+        <el-table-column label="实验室编号" prop="labnum"></el-table-column>
+        <el-table-column label="实验室使用时间" prop="date"></el-table-column>
+        <el-table-column align="center" label="操作" width="150px">
           <template slot-scope="scope">
-            {{ scope.row.name }}
-          </template>
-        </el-table-column>
-        <el-table-column
-            label="实验室编号">
-          <template slot-scope="scope">
-            {{ scope.row.num }}
-          </template>
-        </el-table-column>
-        <el-table-column
-            label="预约日期">
-          <template slot-scope="scope">
-            {{ scope.row.state }}
-          </template>
-        </el-table-column>
-        <el-table-column
-            label="操作">
-          <template slot-scope="scope">
-            <el-button
-                size="mini"
-                type="danger"
-                @click="isShow(scope.$index, scope.row)">预约</el-button>
+          <el-tooltip :enterable="false" content="删除该条记录" effect="dark" placement="top">
+          <el-button type="danger" icon="el-icon-delete" circle size="mini" @click="delbyid(scope.row.id)"></el-button>
+          </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
-      <div style="margin-top: 50px;margin-left: 50px">
-        <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :page-sizes="[5, 10, 15, 20]"
-            :page-size="item"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total">
-        </el-pagination>
-      </div>
-    </div>
+      <!--        分页区域-->
+      <el-pagination
+          :current-page="current"
+          :page-size="size"
+          :page-sizes="[10, 15, 20, 25]"
+          :total="total"
+          layout="total, sizes, prev, pager, next, jumper"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange">
+      </el-pagination>
+    </el-card>
   </div>
 </template>
 
 <script>
-import qs from "qs";
+import qs from 'qs'
 
 export default {
-  name: "MyOrder",
+  name: "MyOrderControl",
+  computed: {
+    username() {
+      return this.$store.getters.getUser
+    }
+  },
   data() {
     return {
-      getLabList:'getLabList',
-      getmajor:'',
-      getMajor:'getMajor',
-      chooseName:'',
-
-      //分页区数据
-      lablist:[],
-      //当前页数
-      current:'',
-      //每页显示多少条
-      item:1,
-      //一共有多少页
-      size:'',
-      //一共有多少条
-      total:1,
-
-      show:false
+      editDialogVisible: false,
+      current: 1,
+      size: 10,
+      orderslist: [],
+      total: 0,
+      editForm: {},
+      starttime:[]
     }
   },
   created() {
-    let self = this
-    self.axios.post('/lab_table')
-        .then(function (response) {
-          self.lablist = response.data.labList;
-          self.current = response.data.current;
-          self.item = response.data.item;
-          self.size = response.data.size;
-          self.total = response.data.total;
-        })
-        .catch(function (error) {
-          self.$message.error('请求失败')
-        });
-  },
+    this.getOrdersList()
+  }
+  ,
   methods: {
-    handleSizeChange(newitem) {
+    orderDialogClosed() {this.$refs.OrderFrom.resetFields()},
+    getOrdersList() {
       let self = this
-      self.item = newitem
-      self.axios.post('/lab_table',qs.stringify({item:newitem}))
-          .then(function (response) {
-            self.lablist = response.data.labList;
-            self.current = response.data.current;
-            self.item = response.data.item;
-            self.size = response.data.size;
-            self.total = response.data.total;
+      self.axios.post('/myorders', qs.stringify({current:self.current,size:self.size,username:self.username}))
+          .then(function (res) {
+            console.log(res);
+            self.orderslist = res.data.records
+            self.total = res.data.total
           })
           .catch(function (error) {
             self.$message.error('请求失败')
           });
     },
-    handleCurrentChange(newcurrent) {
+    handleSizeChange(newSize) {
+      this.queryinfo.size = newSize
+      this.getOrdersList()
+    },
+    handleCurrentChange(newPage) {
+      this.queryinfo.current = newPage
+      this.getOrdersList()
+    },
+    delbyid(id) {
       let self = this
-      self.current = newcurrent
-      self.axios.post('/lab_table',qs.stringify({pn:newcurrent}))
-          .then(function (response) {
-            self.lablist = response.data.labList;
-            self.current = response.data.current;
-            self.item = response.data.item;
-            self.size = response.data.size;
-            self.total = response.data.total;
-          })
-          .catch(function (error) {
-            self.$message.error('请求失败')
-          });
+      self.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        self.axios.post('/delmyordersbyid',qs.stringify({id:id}))
+            .then(res => {
+              this.getOrdersList()
+              self.$message.success("删除成功！")
+            })
+            .catch(err => {
+              self.$message.success("删除失败，请稍后重试！")
+            })
+      }).catch(() => {
+        self.$message({
+          type: 'info',
+          message: '已取消预约'
+        });
+      });
     }
   }
 }
 </script>
 
 <style scoped>
-#myorder{
-  background-color: #f8f8f8;
-  height: 100%;
+.card label{
+  padding: 0 8px 0 8px;
 }
-.head{
-  background-color: #fff;
+.title{
   text-align: center;
-  line-height: 100px;
-  display: flex;
-}
-.left,.right{
-  width: 200px;
-}
-.left{
-  background: url("~assets/img/aboutbarimg.png") no-repeat;
-  background-size: 80% 80%;
-}
-.right{
-  background: url("~assets/img/aboutbarimg.png") no-repeat;
-  transform: rotateY(180deg);
-  background-size: 80% 80%;
-}
-.center{
-  flex: 1;
-  color: var(--color-tint);
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
-.el-select/deep/{
-  width: 100px;
-}
-button{
-  border:none;
-  color: #fff;
-  padding: 8px;
-  margin:0px 20px 0px 20px;
-}
-.orders-list{
-  background-color: #FFF;
-  height: 99%;
-  margin-top: 10px;
-  line-height: 50px;
+  padding: 0 5px 15px 5px;
+  font-weight: bold;
+  font-size: 25px;
 }
 </style>

@@ -18,10 +18,10 @@ export default {
     },
   },
   actions: {
-    login: function (context, payload) {
+    adminlogin: function (context, payload) {
       let self = this;
       return new Promise((resolve, reject) => {
-        Vue.axios.post('/login', qs.stringify(payload))
+        Vue.axios.post('/adminlogin', qs.stringify(payload))
             .then(function (response) {
               let result = response.data;
               if (result.code === 200) {

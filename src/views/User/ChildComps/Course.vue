@@ -29,6 +29,7 @@
 
 <script>
 import ClassTable from "@/views/User/ChildComps/ClassTable";
+
 export default {
   name: "Course",
   components: {

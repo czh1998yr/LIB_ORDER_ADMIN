@@ -54,7 +54,8 @@
         title="添加新用户"
         :visible.sync="addDialogVisible"
         width="50%"
-        @close="addDialogClosed">
+        @close="addDialogClosed"
+        :close-on-click-modal="false">
 <!--      内容主体区-->
       <el-form label-width="80px"
                :model="user"
@@ -99,11 +100,12 @@
         title="修改用户信息"
         :visible.sync="editDialogVisible"
         width="50%"
-        @close="updateDialogClosed">
+        @close="updateDialogClosed"
+        :close-on-click-modal="false">
       <!--      内容主体区-->
       <el-form label-width="80px"
                :model="editForm"
-               :rules="rules"
+               :rules="rules2"
                ref="userForm1">
         <el-form-item label-width="0px">
           <el-input
@@ -111,16 +113,16 @@
               :disabled="true">
           </el-input>
         </el-form-item>
-        <el-form-item prop="password" label-width="0px">
-          <el-input name="newpassword"
+        <el-form-item prop="repassword" label-width="0px">
+          <el-input name="repassword"
                     placeholder="请输入要修改的密码"
-                    v-model.trim="editForm.repassword"
+                    v-model="editForm.repassword"
                     prefix-icon="el-icon-lock"/>
         </el-form-item>
         <el-form-item prop="email" label-width="0px">
           <el-input name="newemail"
                     placeholder="请输入要修改的邮箱"
-                    v-model.trim="editForm.email"
+                    v-model="editForm.email"
                     prefix-icon="el-icon-message"/>
         </el-form-item>
       </el-form>
@@ -135,6 +137,7 @@
 
 <script>
 import qs from 'qs'
+
 export default {
   name: "UserControl",
   data() {
@@ -189,6 +192,38 @@ export default {
                 callback();
               }
             }, trigger: 'blur' }
+        ],
+        email:[
+          {required: true, message: '请输入邮箱', trigger: 'blur' },
+          {validator: (rule, value, callback) => {
+              const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+              if (!value) {
+                return callback(new Error('邮箱不能为空'))
+              }
+              setTimeout(() => {
+                if (mailReg.test(value)) {
+                  callback()
+                } else {
+                  callback(new Error('请输入正确的邮箱格式'))
+                }
+              }, 100)
+            }
+          }
+        ],
+      },
+      rules2:{
+        repassword:[
+          { required: true, message: '请设置一个不少于六位数的密码', trigger: 'blur' ,min: 6 , max: 12},
+          {
+            validator:(rule, value, callback) => {
+              const reg = /^[A-Za-z0-9\u4e00-\u9fa5]+$/
+              if (!reg.test(value)) {
+                callback(new Error('密码中不允许有空格出现！！'))
+              } else {
+                callback()
+              }
+            }
+          }
         ],
         email:[
           {required: true, message: '请输入邮箱', trigger: 'blur' },

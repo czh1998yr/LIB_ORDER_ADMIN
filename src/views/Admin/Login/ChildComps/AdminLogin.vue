@@ -64,7 +64,7 @@ export default {
       let self = this;
       this.$refs[userForm].validate((valid) => {
         if (valid) {
-          self.$store.dispatch('login', {username: self.user.username, password: self.user.password})
+          self.$store.dispatch('adminlogin', {username: self.user.username, password: self.user.password})
               .then(response => {
                 window.sessionStorage.setItem("token", response.data.data)
                 self.$message.success(response.data.message)

@@ -22,9 +22,10 @@
       <!--      用户列表去-->
       <el-table :data="lablist" border stripe>
         <el-table-column type="index"></el-table-column>
-        <el-table-column label="实验室名称" prop="labname"></el-table-column>
+        <el-table-column label="实验室名称" prop="name"></el-table-column>
         <el-table-column label="所属专业" prop="major"></el-table-column>
-        <el-table-column label="实验室号" prop="labnum"></el-table-column>
+        <el-table-column label="实验室号" prop="num"></el-table-column>
+        <el-table-column label="状态" prop="state"></el-table-column>
         <el-table-column align="center" label="操作">
           <!-- eslint-disable-next-line -->
           <template slot-scope="scope">
@@ -66,18 +67,27 @@
         <el-form-item label-width="0px" prop="name">
           <el-input v-model.trim="lab.name"
                     autofocus
+                    name="name"
                     placeholder="请输入实验室名称"
                     prefix-icon="el-icon-s-home"/>
         </el-form-item>
         <el-form-item label-width="0px" prop="major">
           <el-input v-model.trim="lab.major"
+                    name="major"
                     placeholder="请输入实验室所属专业"
                     prefix-icon="el-icon-notebook-1"/>
         </el-form-item>
-        <el-form-item label-width="0px" prop="labnum">
-          <el-input v-model.number="lab.labnum"
+        <el-form-item label-width="0px" prop="num">
+          <el-input v-model.number="lab.num"
+                    name="num"
                     placeholder="请输入实验室编号"
                     prefix-icon="el-icon-location"/>
+        </el-form-item>
+        <el-form-item label-width="0px" prop="state">
+          <el-input v-model.trim="lab.state"
+                    name="state"
+                    placeholder="请输入实验室状态（默认空闲）"
+                    prefix-icon="el-icon-chat-round"/>
         </el-form-item>
       </el-form>
       <!--      底部区域-->
@@ -99,17 +109,25 @@
                :rules="rules"
                label-width="80px">
         <el-form-item label="实验室名称：" label-width="110px" prop="name">
-          <el-input v-model.trim="editForm.labname"
+          <el-input v-model.trim="editForm.name"
+                    name="name"
                     prefix-icon="el-icon-s-home">
           </el-input>
         </el-form-item>
         <el-form-item label="所属专业：" label-width="110px" prop="major">
           <el-input v-model.trim="editForm.major"
+                    name="major"
                     prefix-icon="el-icon-notebook-1"/>
         </el-form-item>
-        <el-form-item label="实验室编号：" label-width="110px" prop="labnum">
-          <el-input v-model.number="editForm.labnum"
+        <el-form-item label="实验室编号：" label-width="110px" prop="num">
+          <el-input v-model.number="editForm.num"
+                    name="num"
                     prefix-icon="el-icon-location"/>
+        </el-form-item>
+        <el-form-item label="实验室状态：" label-width="110px">
+          <el-input v-model="editForm.state"
+                    :disabled="true"
+                    prefix-icon="el-icon-chat-round"/>
         </el-form-item>
       </el-form>
       <!--      底部区域-->
@@ -140,7 +158,7 @@ export default {
       lab: {
         name: '',
         major: '',
-        labnum: '',
+        num: '',
         state: '空闲'
       },
       editForm: {},
@@ -171,7 +189,7 @@ export default {
             }
           }
         ],
-        labnum: [
+        num: [
           {
             validator: (rule, value, callback) => {
               if (!value) {
@@ -193,137 +211,138 @@ export default {
       }
     }
   },
-  created()
-  {
-    this.getLabList()
-  }
+    created()
+    {
+      this.getLabList()
+    }
   ,
-  methods: {
-    getLabList()
-    {
-      let self = this
-      self.axios.get('/lablist', {params: self.queryinfo})
-          .then(function (response) {
-            self.lablist = response.data.records
-            self.total = response.data.total
-          })
-          .catch(function (error) {
-            self.$message.error('请求失败')
-          });
-    }
+    methods: {
+      getLabList()
+      {
+        let self = this
+        self.axios.get('/lablist', {params: self.queryinfo})
+            .then(function (response) {
+              self.lablist = response.data.records
+              self.total = response.data.total
+            })
+            .catch(function (error) {
+              self.$message.error('请求失败')
+            });
+      }
     ,
-    handleSizeChange(newSize)
-    {
-      this.queryinfo.size = newSize
-      this.getLabList()
-    }
+      handleSizeChange(newSize)
+      {
+        this.queryinfo.size = newSize
+        this.getLabList()
+      }
     ,
-    handleCurrentChange(newPage)
-    {
-      this.queryinfo.current = newPage
-      this.getLabList()
-    }
+      handleCurrentChange(newPage)
+      {
+        this.queryinfo.current = newPage
+        this.getLabList()
+      }
     ,
-    openDialog()
-    {
-      this.addDialogVisible = true
-    }
+      openDialog()
+      {
+        this.addDialogVisible = true
+      }
     ,
-    addUsers(userForm)
-    {
-      let self = this;
-      self.$refs[userForm].validate((valid) => {
-        if (valid) {
-          self.axios.post('/addlab', qs.stringify({
-            labname: self.lab.name,major: self.lab.major, labnum: self.lab.labnum
-          }))
-              .then(res => {
-                let data = res.data
-                console.log(data);
-                if (data.code === 200) {
-                  self.addDialogVisible = false
-                  self.$message.success(data.message)
+      addUsers(userForm)
+      {
+        let self = this;
+        self.$refs[userForm].validate((valid) => {
+          if (valid) {
+            self.axios.post('/addlab', qs.stringify({
+              name: self.lab.name,
+              major: self.lab.major, num: self.lab.num, state: self.lab.state
+            }))
+                .then(res => {
+                  let data = res.data
+                  console.log(data);
+                  if (data.code === 200) {
+                    self.addDialogVisible = false
+                    self.$message.success(data.message)
+                    self.getLabList()
+                  } else {
+                    self.$message.error('添加失败，请稍后重试！')
+                  }
+                }).catch(err => {
+              self.$message.error('服务器开小差咯，请稍后重试！')
+            })
+          }
+        });
+      }
+    ,
+      addDialogClosed()
+      {
+        this.$refs.userForm.resetFields()
+      }
+    ,
+      updateDialogClosed()
+      {
+        this.$refs.userForm1.resetFields()
+      }
+    ,
+      showEditDialog(id)
+      {
+        this.editDialogVisible = true
+        self = this
+        self.axios.get('/labid?id=' + id)
+            .then(function (response) {
+              self.editForm = response.data
+            })
+            .catch(function (error) {
+              self.$message.error('查询用户信息失败')
+            });
+      }
+    ,
+      labUpdata(userForm1)
+      {
+        this.$refs[userForm1].validate((valid) => {
+          if (valid) {
+            let self = this
+            self.axios.post('/reviselab', qs.stringify({
+              name: self.editForm.name,
+              major: self.editForm.major,
+              num: self.editForm.num,
+              id: self.editForm.id
+            }))
+                .then(function (res) {
+                  console.log(res);
+                  self.$message.success(res.data.message)
+                  self.editDialogVisible = false
                   self.getLabList()
-                } else {
-                  self.$message.error('添加失败，请稍后重试！')
-                }
-              }).catch(err => {
-            self.$message.error('服务器开小差咯，请稍后重试！')
-          })
-        }
-      });
-    }
+                })
+                .catch(function (error) {
+                  self.$message.error('修改失败，请稍后重试！')
+                });
+          }
+        });
+      }
     ,
-    addDialogClosed()
-    {
-      this.$refs.userForm.resetFields()
-    }
-    ,
-    updateDialogClosed()
-    {
-      this.$refs.userForm1.resetFields()
-    }
-    ,
-    showEditDialog(id)
-    {
-      this.editDialogVisible = true
-      self = this
-      self.axios.get('/labid?id=' + id)
-          .then(function (response) {
-            self.editForm = response.data
-          })
-          .catch(function (error) {
-            self.$message.error('查询信息失败')
-          });
-    }
-    ,
-    labUpdata(userForm1)
-    {
-      this.$refs[userForm1].validate((valid) => {
-        if (valid) {
-          let self = this
-          self.axios.post('/reviselab', qs.stringify({
-            name: self.editForm.name,
-            major: self.editForm.major,
-            num: self.editForm.num,
-            id: self.editForm.id
-          }))
-              .then(function (res) {
-                console.log(res);
-                self.$message.success(res.data.message)
-                self.editDialogVisible = false
+      delUserById(id)
+      {
+        // 删除确认提示框
+        self = this
+        self.$confirm('此操作将永久删除该实验室, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          confirmButtonClass: 'btnFalses'
+        }).then(() => {
+          self.axios.post('/dellab?id=' + id)
+              .then(response => {
+                self.$message.success({message: '删除成功!'});
                 self.getLabList()
-              })
-              .catch(function (error) {
-                self.$message.error('修改失败，请稍后重试！')
-              });
-        }
-      });
-    }
-    ,
-    delUserById(id)
-    {
-      // 删除确认提示框
-      self = this
-      self.$confirm('此操作将永久删除该实验室, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        confirmButtonClass: 'btnFalses'
-      }).then(() => {
-        self.axios.post('/dellab?id=' + id)
-            .then(response => {
-              self.$message.success({message: '删除成功!'});
-              self.getLabList()
-            }).catch(err => {
-          self.$message.error({message: '删除失败，请稍后重试！'});
-        })
-      }).catch(() => {
-        self.$message.info({message: '已取消删除'});
-      });
+              }).catch(err => {
+            self.$message.error({message: '删除失败，请稍后重试！'});
+          })
+        }).catch(() => {
+          self.$message.info({message: '已取消删除'});
+        });
+      }
     }
   }
-}
 </script>
 
 <style scoped>
