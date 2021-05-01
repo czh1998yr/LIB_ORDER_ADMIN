@@ -6,7 +6,6 @@
       <el-breadcrumb-item>系统功能</el-breadcrumb-item>
       <el-breadcrumb-item>实验室预约</el-breadcrumb-item>
     </el-breadcrumb>
-    <button @click="aaa()">按钮</button>
     <!--    选择区-->
     <div class="head">
       <div class="left">
@@ -52,41 +51,41 @@
         <el-table-column label="实验室名称" width="120" prop="labname"></el-table-column>
         <el-table-column label="预约节数" class="checkbox">
           <template slot-scope="scope">
-            <label v-if="orders[scope.$index].s1 === true" ><input id="" type="checkbox" :disabled="true" :checked="true">第1节</label>
-            <label v-else @change="orders[scope.$index].s1 = !orders[scope.$index].s1" @click="u1(scope)"><input type="checkbox">第1节</label>
+            <label v-if="scope.row.s1 === true"><input type="checkbox" :disabled="true" :checked="true">第1节<i class="el-icon-caret-left" v-show="color[scope.$index].s1 === true"/></label>
+            <label v-else @change="u1(scope)"><input type="checkbox">第1节</label>
 
-            <label v-if="orders[scope.$index].s2 === true" ><input type="checkbox" :disabled="true" :checked="true">第2节</label>
-            <label v-else @change="orders[scope.$index].s2 = !orders[scope.$index].s2" @click="u2(scope)"><input type="checkbox">第2节</label>
+            <label v-if="scope.row.s2 === true"><input type="checkbox" :disabled="true" :checked="true">第2节<i class="el-icon-caret-left" v-show="color[scope.$index].s2 === true"/></label>
+            <label v-else @change="u2(scope)"><input type="checkbox">第2节</label>
 
-            <label v-if="orders[scope.$index].s3 === true" ><input type="checkbox" :disabled="true" :checked="true">第3节</label>
-            <label v-else @change="orders[scope.$index].s3 = !orders[scope.$index].s3" @click="u3(scope)"><input type="checkbox">第3节</label>
+            <label v-if="scope.row.s3 === true"><input type="checkbox" :disabled="true" :checked="true">第3节<i class="el-icon-caret-left" v-show="color[scope.$index].s3 === true"/></label>
+            <label v-else @change="u3(scope)"><input type="checkbox">第3节</label>
 
-            <label v-if="orders[scope.$index].s4=== true" ><input type="checkbox" :disabled="true" :checked="true">第4节</label>
-            <label v-else @change="orders[scope.$index].s4 = !orders[scope.$index].s4" @click="u4(scope)"><input type="checkbox">第4节</label>
+            <label v-if="scope.row.s4 === true"><input type="checkbox" :disabled="true" :checked="true">第4节<i class="el-icon-caret-left" v-show="color[scope.$index].s4 === true"/></label>
+            <label v-else @change="u4(scope)"><input type="checkbox">第4节</label>
 
-            <label v-if="orders[scope.$index].s5 === true" ><input type="checkbox" :disabled="true" :checked="true">第5节</label>
-            <label v-else @change="orders[scope.$index].s5 = !orders[scope.$index].s5" @click="u5(scope)"><input type="checkbox">第5节</label>
+            <label v-if="scope.row.s5 === true"><input type="checkbox" :disabled="true" :checked="true">第5节<i class="el-icon-caret-left" v-show="color[scope.$index].s5 === true"/></label>
+            <label v-else @change="u5(scope)"><input type="checkbox">第5节</label>
 
-            <label v-if="orders[scope.$index].s6 === true" ><input type="checkbox" :disabled="true" :checked="true">第6节</label>
-            <label v-else @change="orders[scope.$index].s6 = !orders[scope.$index].s6" @click="u6(scope)"><input type="checkbox">第6节</label>
+            <label v-if="scope.row.s6 === true"><input type="checkbox" :disabled="true" :checked="true">第6节<i class="el-icon-caret-left" v-show="color[scope.$index].s6 === true"/></label>
+            <label v-else @change="u6(scope)"><input type="checkbox">第6节</label>
 
-            <label v-if="orders[scope.$index].s7 === true" ><input type="checkbox" :disabled="true" :checked="true">第7节</label>
-            <label v-else @change="orders[scope.$index].s7 = !orders[scope.$index].s7" @click="u7(scope)"><input type="checkbox">第7节</label>
+            <label v-if="scope.row.s7 === true"><input type="checkbox" :disabled="true" :checked="true">第7节<i class="el-icon-caret-left" v-show="color[scope.$index].s7 === true"/></label>
+            <label v-else @change="u7(scope)"><input type="checkbox">第7节</label>
 
-            <label v-if="orders[scope.$index].s8 === true" ><input type="checkbox" :disabled="true" :checked="true">第8节</label>
-            <label v-else @change="orders[scope.$index].s8 = !orders[scope.$index].s8" @click="u8(scope)"><input type="checkbox">第8节</label>
+            <label v-if="scope.row.s8 === true"><input type="checkbox" :disabled="true" :checked="true">第8节<i class="el-icon-caret-left" v-show="color[scope.$index].s8 === true"/></label>
+            <label v-else @change="u8(scope)"><input type="checkbox">第8节</label>
 
-            <label v-if="orders[scope.$index].s9 === true" ><input type="checkbox" :disabled="true" :checked="true">第9节</label>
-            <label v-else @change="orders[scope.$index].s9 = !orders[scope.$index].s9" @click="u9(scope)"><input type="checkbox">第9节</label>
+            <label v-if="scope.row.s9 === true"><input type="checkbox" :disabled="true" :checked="true">第9节<i class="el-icon-caret-left" v-show="color[scope.$index].s9 === true"/></label>
+            <label v-else  @change="u9(scope)"><input type="checkbox">第9节</label>
 
-            <label v-if="orders[scope.$index].s10 === true" ><input type="checkbox" :disabled="true" :checked="true">第10节</label>
-            <label v-else @change="orders[scope.$index].s10 = !orders[scope.$index].s10" @click="u10(scope)"><input type="checkbox">第10节</label>
+            <label v-if="scope.row.s10 === true"><input type="checkbox" :disabled="true" :checked="true">第10节<i class="el-icon-caret-left" v-show="color[scope.$index].s10 === true"/></label>
+            <label v-else @change="u10(scope)"><input type="checkbox">第10节</label>
 
-            <label v-if="orders[scope.$index].s11 === true" ><input type="checkbox" :disabled="true" :checked="true">第11节</label>
-            <label v-else @change="orders[scope.$index].s11 = !orders[scope.$index].s11" @click="u11(scope)"><input type="checkbox">第11节</label>
+            <label v-if="scope.row.s11 === true"><input type="checkbox" :disabled="true" :checked="true">第11节<i class="el-icon-caret-left" v-show="color[scope.$index].s11 === true"/></label>
+            <label v-else @change="u11(scope)"><input type="checkbox">第11节</label>
 
-            <label v-if="orders[scope.$index].s12 === true" ><input type="checkbox" :disabled="true" :checked="true">第12节</label>
-            <label v-else @change="orders[scope.$index].s12 = !orders[scope.$index].s12" @click="u12(scope)"><input type="checkbox">第12节</label>
+            <label v-if="scope.row.s12 === true"><input type="checkbox" :disabled="true" :checked="true">第12节<i class="el-icon-caret-left" v-show="color[scope.$index].s12 === true"/></label>
+            <label v-else  @change="u12(scope)"><input type="checkbox">第12节</label>
           </template>
         </el-table-column>
 
@@ -121,6 +120,7 @@ export default {
   },
   data() {
     return {
+      isTrue:{color:'#F56C6C'},
       checkFlag:[],
       term: [],
       chooseterm: '',
@@ -157,7 +157,6 @@ export default {
         {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
         {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
         {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
-        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
       ],
       ordersdate:[
         {state:'',date:'',username:'',labname:'',labnum:''},
@@ -169,7 +168,25 @@ export default {
         {state:'',date:'',username:'',labname:'',labnum:''},
       ],
       submitshow:false,
-      userorders:[]
+      userorders:[],
+      color: [
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+      ],
+      newcolor: [
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+      ],
     }
   },
   created() {
@@ -314,56 +331,78 @@ export default {
       self.userorders = []
     },
     u1(scope) {
+      this.isTrue.color = 'cornflowerblue'
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u1 = this.username
+      this.orders[scope.$index].s1 = !this.orders[scope.$index].s1
+      this.color[scope.$index].s1 = true
     },
     u2(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u2 = this.username
+      this.orders[scope.$index].s2 = !this.orders[scope.$index].s2
+      this.color[scope.$index].s2 = true
     },
     u3(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u3 = this.username
+      this.orders[scope.$index].s3 = !this.orders[scope.$index].s3
+      this.color[scope.$index].s3 = true
     },
     u4(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u4 = this.username
+      this.orders[scope.$index].s4 = !this.orders[scope.$index].s4
+      this.color[scope.$index].s4 = true
     },
     u5(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u5 = this.username
+      this.orders[scope.$index].s5 = !this.orders[scope.$index].s5
+      this.color[scope.$index].s5 = true
     },
     u6(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u6 = this.username
+      this.orders[scope.$index].s6 = !this.orders[scope.$index].s6
+      this.color[scope.$index].s6 = true
     },
     u7(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u7 = this.username
+      this.orders[scope.$index].s7 = !this.orders[scope.$index].s7
+      this.color[scope.$index].s7 = true
     },
     u8(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u8 = this.username
+      this.orders[scope.$index].s8 = !this.orders[scope.$index].s8
+      this.color[scope.$index].s8 = true
     },
     u9(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u9 = this.username
+      this.orders[scope.$index].s9 = !this.orders[scope.$index].s9
+      this.color[scope.$index].s9 = true
     },
     u10(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u10 = this.username
+      this.orders[scope.$index].s10 = !this.orders[scope.$index].s10
+      this.color[scope.$index].s10 = true
     },
     u11(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u11 = this.username
+      this.orders[scope.$index].s11 = !this.orders[scope.$index].s11
+      this.color[scope.$index].s11 = true
     },
     u12(scope) {
       this.ordersdate[scope.$index].state = 1
       this.orders[scope.$index].u12 = this.username
+      this.orders[scope.$index].s12 = !this.orders[scope.$index].s12
+      this.color[scope.$index].s12 = true
     },
-    aaa() {
-      console.log(self.ordersdate);
-    }
   }
 }
 </script>
@@ -393,5 +432,7 @@ export default {
   padding: 0 15px 0 15px;
   font-size: 15px;
 }
-
+.isTure i{
+  color: #F56C6C;
+}
 </style>

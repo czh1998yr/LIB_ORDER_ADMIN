@@ -37,3 +37,6 @@ margin-top: 15px;
 .el-loading-mask, .is-fullscreen,.el-loading-spinner,.el-icon-loading ,.el-loading-text{
   color: var(--color-tint) !important;
 }
+.el-icon-caret-left{
+  color: #F56C6C !important;
+}
