@@ -6,13 +6,13 @@
       <el-breadcrumb-item>系统功能</el-breadcrumb-item>
       <el-breadcrumb-item>实验室预约</el-breadcrumb-item>
     </el-breadcrumb>
+    <button @click="aaa()">按钮</button>
     <!--    选择区-->
     <div class="head">
       <div class="left">
       </div>
       <div class="center">
         <el-select v-model="chooseterm"
-                   clearable
                    placeholder="请选择学期"
                    @change="chooseTerm($event)">
           <el-option
@@ -33,7 +33,7 @@
         <span>周</span>
 
         <el-divider direction="vertical"></el-divider>
-        <el-select v-model="labnum" clearable placeholder="请选择实验室编号">
+        <el-select v-model="labnum" placeholder="请选择实验室编号">
           <el-option v-for="(labnum,index) in lablist" :key="index" :label="labnum.labnum" :value="labnum.labnum">
           </el-option>
         </el-select>
@@ -52,41 +52,41 @@
         <el-table-column label="实验室名称" width="120" prop="labname"></el-table-column>
         <el-table-column label="预约节数" class="checkbox">
           <template slot-scope="scope">
-            <label v-if="orders[scope.$index].s1 === true" ><input type="checkbox" :disabled="true" :checked="true">第1节</label>
-            <label v-else @change="orders[scope.$index].s1 = !orders[scope.$index].s1" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第1节</label>
+            <label v-if="orders[scope.$index].s1 === true" ><input id="" type="checkbox" :disabled="true" :checked="true">第1节</label>
+            <label v-else @change="orders[scope.$index].s1 = !orders[scope.$index].s1" @click="u1(scope)"><input type="checkbox">第1节</label>
 
             <label v-if="orders[scope.$index].s2 === true" ><input type="checkbox" :disabled="true" :checked="true">第2节</label>
-            <label v-else @change="orders[scope.$index].s2 = !orders[scope.$index].s2" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第2节</label>
+            <label v-else @change="orders[scope.$index].s2 = !orders[scope.$index].s2" @click="u2(scope)"><input type="checkbox">第2节</label>
 
             <label v-if="orders[scope.$index].s3 === true" ><input type="checkbox" :disabled="true" :checked="true">第3节</label>
-            <label v-else @change="orders[scope.$index].s3 = !orders[scope.$index].s3" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第3节</label>
+            <label v-else @change="orders[scope.$index].s3 = !orders[scope.$index].s3" @click="u3(scope)"><input type="checkbox">第3节</label>
 
             <label v-if="orders[scope.$index].s4=== true" ><input type="checkbox" :disabled="true" :checked="true">第4节</label>
-            <label v-else @change="orders[scope.$index].s4 = !orders[scope.$index].s4" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第4节</label>
+            <label v-else @change="orders[scope.$index].s4 = !orders[scope.$index].s4" @click="u4(scope)"><input type="checkbox">第4节</label>
 
             <label v-if="orders[scope.$index].s5 === true" ><input type="checkbox" :disabled="true" :checked="true">第5节</label>
-            <label v-else @change="orders[scope.$index].s5 = !orders[scope.$index].s5" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第5节</label>
+            <label v-else @change="orders[scope.$index].s5 = !orders[scope.$index].s5" @click="u5(scope)"><input type="checkbox">第5节</label>
 
             <label v-if="orders[scope.$index].s6 === true" ><input type="checkbox" :disabled="true" :checked="true">第6节</label>
-            <label v-else @change="orders[scope.$index].s6 = !orders[scope.$index].s6" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第6节</label>
+            <label v-else @change="orders[scope.$index].s6 = !orders[scope.$index].s6" @click="u6(scope)"><input type="checkbox">第6节</label>
 
             <label v-if="orders[scope.$index].s7 === true" ><input type="checkbox" :disabled="true" :checked="true">第7节</label>
-            <label v-else @change="orders[scope.$index].s7 = !orders[scope.$index].s7" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第7节</label>
+            <label v-else @change="orders[scope.$index].s7 = !orders[scope.$index].s7" @click="u7(scope)"><input type="checkbox">第7节</label>
 
             <label v-if="orders[scope.$index].s8 === true" ><input type="checkbox" :disabled="true" :checked="true">第8节</label>
-            <label v-else @change="orders[scope.$index].s8 = !orders[scope.$index].s8" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第8节</label>
+            <label v-else @change="orders[scope.$index].s8 = !orders[scope.$index].s8" @click="u8(scope)"><input type="checkbox">第8节</label>
 
             <label v-if="orders[scope.$index].s9 === true" ><input type="checkbox" :disabled="true" :checked="true">第9节</label>
-            <label v-else @change="orders[scope.$index].s9 = !orders[scope.$index].s9" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第9节</label>
+            <label v-else @change="orders[scope.$index].s9 = !orders[scope.$index].s9" @click="u9(scope)"><input type="checkbox">第9节</label>
 
             <label v-if="orders[scope.$index].s10 === true" ><input type="checkbox" :disabled="true" :checked="true">第10节</label>
-            <label v-else @change="orders[scope.$index].s10 = !orders[scope.$index].s10" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第10节</label>
+            <label v-else @change="orders[scope.$index].s10 = !orders[scope.$index].s10" @click="u10(scope)"><input type="checkbox">第10节</label>
 
             <label v-if="orders[scope.$index].s11 === true" ><input type="checkbox" :disabled="true" :checked="true">第11节</label>
-            <label v-else @change="orders[scope.$index].s11 = !orders[scope.$index].s11" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第11节</label>
+            <label v-else @change="orders[scope.$index].s11 = !orders[scope.$index].s11" @click="u11(scope)"><input type="checkbox">第11节</label>
 
             <label v-if="orders[scope.$index].s12 === true" ><input type="checkbox" :disabled="true" :checked="true">第12节</label>
-            <label v-else @change="orders[scope.$index].s12 = !orders[scope.$index].s12" @click="ordersdate[scope.$index].state = 1"><input type="checkbox">第12节</label>
+            <label v-else @change="orders[scope.$index].s12 = !orders[scope.$index].s12" @click="u12(scope)"><input type="checkbox">第12节</label>
           </template>
         </el-table-column>
 
@@ -150,14 +150,14 @@ export default {
       labday:'',
       ordersMessage:[],
       orders: [
-        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
+        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
+        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
+        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
+        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
+        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
+        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
+        {id:'',s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false,u1:'',u2:'',u3:'',u4:'',u5:'',u6:'',u7:'',u8:'',u9:'',u10:'',u11:'',u12:''},
       ],
       ordersdate:[
         {state:'',date:'',username:'',labname:'',labnum:''},
@@ -220,7 +220,7 @@ export default {
       self = this
       self.axios.post('/checkorders', qs.stringify({
         current: self.orderinfo.current,
-        size: self.orderinfo.size, week: self.chooseWeek, labnum: self.labnum
+        size: self.orderinfo.size, week: self.chooseWeek,labnum: self.labnum
       }))
           .then(res => {
             self.ordersMessage = res.data.records
@@ -231,7 +231,6 @@ export default {
               self.ordersdate[i].labname = self.orders[i].labname
               self.ordersdate[i].labnum = self.orders[i].labnum
             }
-            console.log(self.orders);
           })
           .catch(err => {
             self.$message.error("查询错误，请重试！")
@@ -271,12 +270,13 @@ export default {
       self.$confirm('此操作将预约该实验室, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          confirmButtonClass:'sumbit',
           type: 'warning'
         }).then(() => {
           self.axios.post('/order',orders,{headers:{'Content-Type': 'application/json'}})
           .then(res => {
-            self.checkLab();
             self.adduserorders();
+            self.checkLab();
             self.$message.success("恭喜您，预约成功！")
           })
           .catch(err => {
@@ -304,14 +304,66 @@ export default {
         }
       }
       let userOrders = JSON.stringify(self.userorders)
-      self.axios.post('/adduserorders',userOrders,{headers:{'Content-Type': 'application/json'}})
+      self.axios.post('/adduserorder',userOrders,{headers:{'Content-Type': 'application/json'}})
       .then(res => {
-        console.log(userOrders);
+        console.log('______________________________');
+        console.log(res);
       }).catch(err => {
-        console.log(err);
+        return err;
       })
       self.userorders = []
     },
+    u1(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u1 = this.username
+    },
+    u2(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u2 = this.username
+    },
+    u3(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u3 = this.username
+    },
+    u4(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u4 = this.username
+    },
+    u5(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u5 = this.username
+    },
+    u6(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u6 = this.username
+    },
+    u7(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u7 = this.username
+    },
+    u8(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u8 = this.username
+    },
+    u9(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u9 = this.username
+    },
+    u10(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u10 = this.username
+    },
+    u11(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u11 = this.username
+    },
+    u12(scope) {
+      this.ordersdate[scope.$index].state = 1
+      this.orders[scope.$index].u12 = this.username
+    },
+    aaa() {
+      console.log(self.ordersdate);
+    }
   }
 }
 </script>

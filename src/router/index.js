@@ -1,21 +1,33 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {Message} from 'element-ui'
 
 //普通用户登录界面
-// const Welcome = () => import('@/views/User/ChildComps/Welcome')
+import Login from "../views/User/Login/ChildComps/Login";
 import Welcome from "../views/User/ChildComps/Welcome";
-const Login = () => import('@/views/User/Login/ChildComps/Login')
-const Username = () => import('views/User/UserHome')
-const Course = () => import('@/views/User/ChildComps/Course')
-const OrderControl = () => import('views/User/ChildComps/Order/OrderControl')
-const MyOrderControl = () => import('views/User/ChildComps/Order/MyOrderControl')
+import UserHome from "../views/User/UserHome";
+import OrderControl from "../views/User/ChildComps/Order/OrderControl";
+import MyOrderControl from "../views/User/ChildComps/Order/MyOrderControl";
+// const UserHome = () => import('views/User/UserHome')
+// const OrderControl = () => import('views/User/ChildComps/Order/OrderControl')
+// const MyOrderControl = () => import('views/User/ChildComps/Order/MyOrderControl')
 //管理员登录界面
-const AdminLogin = () => import('@/views/Admin/Login/ChildComps/AdminLogin')
-const AdminHome = () => import('@/views/Admin/AdminHome')
-const AdminWelcome = () => import('@/views/Admin/ChildComps/AdminWelcome')
-const UserControl = () => import('@/views/Admin/ChildComps/UserControl')
-const LabControl = () => import('views/Admin/ChildComps/LabControl')
-const LabStateControl = () => import('views/Admin/ChildComps/LabStateControl')
+import AdminLogin from "../views/Admin/Login/ChildComps/AdminLogin";
+import AdminWelcome from "../views/Admin/ChildComps/AdminWelcome";
+import AdminHome from "../views/Admin/AdminHome";
+import UserControl from "../views/Admin/ChildComps/UserControl";
+import LabControl from "../views/Admin/ChildComps/LabControl";
+import LabStateControl from "../views/Admin/ChildComps/LabStateControl";
+import UserOrderControl from "../views/Admin/ChildComps/UserOrderControl";
+// const AdminHome = () => import('@/views/Admin/AdminHome')
+// const UserControl = () => import('@/views/Admin/ChildComps/UserControl')
+// const LabControl = () => import('views/Admin/ChildComps/LabControl')
+// const LabStateControl = () => import('views/Admin/ChildComps/LabStateControl')
+// const UserOrderControl = () => import('views/Admin/ChildComps/UserOrderControl')
+
+//警告页面
+import fof from '../components/common/404'
+import foo from '../components/common/401'
 
 
 
@@ -34,30 +46,33 @@ const router = new Router({
       }
     },
     {
+      path:'/404',
+      component:fof
+    },
+    {
+      path: "*",
+      redirect: "/404"
+    },
+    {
+      path:'/401',
+      component:foo
+    },
+    {
       path:'/login',
       component: Login,
-      meta: {
-        isLogin: false
-      }
     },
     {
       path:'/admin_login',
       component: AdminLogin,
-      meta: {
-        isLogin: false
-      }
     },
     {
       path:'/logout',
       component:Login,
-      meta: {
-        isLogin: false
-      }
     },
       //普通用户
     {
       path:'/home',
-      component: Username,
+      component: UserHome,
       meta: {
         isLogin: false
       },
@@ -69,10 +84,6 @@ const router = new Router({
         {
           path:"welcome",
           component:Welcome
-        },
-        {
-          path:'course',
-          component: Course
         },
         {
           path:'order',
@@ -105,6 +116,10 @@ const router = new Router({
         {
           path:'/labstate',
           component: LabStateControl
+        },
+        {
+          path: '/userorders',
+          component: UserOrderControl
         }
       ]
     }
@@ -116,25 +131,37 @@ router.beforeEach((to, from, next) => {
   let tokenStr = window.sessionStorage.getItem('token')
 //  to,将要访问的路径、from:从哪里跳转出来、next:是一个函数，表示放行
   if(to.path === '/logout') {window.sessionStorage.clear();next({path: '/login'})}
-  if(to.path === '/login' || to.path === '/admin_login' ){
+  if(to.path === '/login' || to.path === '/admin_login' || to.path === '/404' || to.path === '/401' || to.path === '/logout'){
     if(tokenStr === null) {
       next();
-    }else{
-      next({path: '/home'})
+    }else {
+        next({path: '/home'})
+      }
+  }else{
+    if (tokenStr === null) {
+      Message.error('对不起，请先登录后再尝试访问页面！')
+      return  next({path:'/login'})
+    } else {
+        next();
     }
-  }else if(tokenStr === null) return next({path:'/login'})
+  }
   next();
 })
 
-/* 路由异常错误处理，尝试解析一个异步组件时发生错误，重新渲染目标页面 */
-// router.onError((error) => {
-//   const pattern = /Loading chunk (\d)+ failed/g;
-//   const isChunkLoadFailed = error.message.match(pattern);
-//   const targetPath = router.history.pending.fullPath;
-//   if (isChunkLoadFailed) {
-//     router.replace(targetPath);
-//   }
-// });
+// 解决重复点击报错
+const originalPush = Router.prototype.push
+const originalReplace = Router.prototype.replace
+// push
+Router.prototype.push = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
+// replace
+Router.prototype.replace = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) return originalReplace.call(this, location, onResolve, onReject)
+  return originalReplace.call(this, location).catch(err => err)
+}
+
 
 
 export default router;

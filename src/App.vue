@@ -5,18 +5,24 @@
 </template>
 
 <script>
-
+import  jwt  from  'jsonwebtoken'
 export default {
   name: 'App',
-  mounted() {
-    window.addEventListener('unload',this.saveState)
-    },
+  created(){   /*在根组件进行判断，否则刷新就没了*/
+    this.initData()
+  },
   methods: {
-    saveState() {
-      // window.sessionStorage.setItem('state',JSON.stringify(this.$store.state))
+    // 有token时初始化数据
+    initData(){
+      if (sessionStorage.getItem("token")){
+        let str = jwt.decode(sessionStorage.getItem("token"))
+        const user = str.username;
+        /*存储至vuex*/
+        this.$store.dispatch('setUser',user)
+      }
     }
   }
-}
+  }
 </script>
 
 <style>

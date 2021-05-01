@@ -16,22 +16,44 @@
       <!--      用户列表去-->
       <el-table :data="orderslist" border stripe>
         <el-table-column type="index"></el-table-column>
-        <el-table-column label="预约人" prop="username"></el-table-column>
-        <el-table-column label="实验室名称" prop="labname"></el-table-column>
-        <el-table-column label="实验室编号" prop="labnum"></el-table-column>
-        <el-table-column label="实验室使用时间" prop="date"></el-table-column>
-        <el-table-column align="center" label="操作" width="150px">
+        <el-table-column label="预约人" width="65px">{{username}}</el-table-column>
+        <el-table-column label="实验室名称" prop="labname" width="120px"></el-table-column>
+        <el-table-column label="实验室编号" prop="labnum" width="95px"></el-table-column>
+        <el-table-column label="实验室使用时间" prop="date" width="125px"></el-table-column>
+        <el-table-column label="周次" prop="week" width="65px"></el-table-column>
+        <el-table-column label="星期" prop="day" width="65px"></el-table-column>
+        <el-table-column label="预约情况" prop="createTime">
           <template slot-scope="scope">
-          <el-tooltip :enterable="false" content="删除该条记录" effect="dark" placement="top">
-          <el-button type="danger" icon="el-icon-delete" circle size="mini" @click="delbyid(scope.row.id)"></el-button>
-          </el-tooltip>
+            <el-tag type="success" v-if="scope.row.u1 === username" class="tab">第1节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u2 === username" class="tab">第2节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u3 === username" class="tab">第3节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u4 === username" class="tab">第4节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u5 === username" class="tab">第5节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u6 === username" class="tab">第6节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u7 === username" class="tab">第7节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u8 === username" class="tab">第8节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u9 === username" class="tab">第9节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u10 === username" class="tab">第10节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u11 === username" class="tab">第11节</el-tag>
+
+            <el-tag type="success" v-if="scope.row.u12 === username" class="tab">第12节</el-tag>
           </template>
         </el-table-column>
       </el-table>
       <!--        分页区域-->
       <el-pagination
-          :current-page="current"
-          :page-size="size"
+          :current-page="queryinfo.current"
+          :page-size="queryinfo.size"
           :page-sizes="[10, 15, 20, 25]"
           :total="total"
           layout="total, sizes, prev, pager, next, jumper"
@@ -55,8 +77,10 @@ export default {
   data() {
     return {
       editDialogVisible: false,
-      current: 1,
-      size: 10,
+      queryinfo: {
+        current: 1,
+        size: 10
+      },
       orderslist: [],
       total: 0,
       editForm: {},
@@ -71,9 +95,10 @@ export default {
     orderDialogClosed() {this.$refs.OrderFrom.resetFields()},
     getOrdersList() {
       let self = this
-      self.axios.post('/myorders', qs.stringify({current:self.current,size:self.size,username:self.username}))
+      self.axios.post('/myorders', qs.stringify({current:self.queryinfo.current,size:self.queryinfo.size,username:self.username}))
           .then(function (res) {
             console.log(res);
+            console.log('这里');
             self.orderslist = res.data.records
             self.total = res.data.total
           })
@@ -88,28 +113,6 @@ export default {
     handleCurrentChange(newPage) {
       this.queryinfo.current = newPage
       this.getOrdersList()
-    },
-    delbyid(id) {
-      let self = this
-      self.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        self.axios.post('/delmyordersbyid',qs.stringify({id:id}))
-            .then(res => {
-              this.getOrdersList()
-              self.$message.success("删除成功！")
-            })
-            .catch(err => {
-              self.$message.success("删除失败，请稍后重试！")
-            })
-      }).catch(() => {
-        self.$message({
-          type: 'info',
-          message: '已取消预约'
-        });
-      });
     }
   }
 }
@@ -124,5 +127,8 @@ export default {
   padding: 0 5px 15px 5px;
   font-weight: bold;
   font-size: 25px;
+}
+.tab{
+  margin: 0 8px 0 0 !important;
 }
 </style>

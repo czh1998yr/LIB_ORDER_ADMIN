@@ -1,27 +1,12 @@
 import qs from "qs"
 import Vue from 'vue'
 
-const state={
-  user: {
-    username: '',
-    // Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''
-  }
-}
-
 export default {
-  state,
-  mutations: {
-    updataUser(state, payload) {
-      state.user = payload.username
-      // state.Authorization = payload.Authorization;
-      // localStorage.setItem('Authorization', payload.Authorization);
-    },
-  },
   actions: {
     adminlogin: function (context, payload) {
       let self = this;
       return new Promise((resolve, reject) => {
-        Vue.axios.post('/adminlogin', qs.stringify(payload))
+        Vue.axios.post('/login/admin', qs.stringify(payload))
             .then(function (response) {
               let result = response.data;
               if (result.code === 200) {
@@ -38,9 +23,4 @@ export default {
       })
     }
   },
-  getters: {
-    getUser(state) {
-      return state.user;
-    }
-  }
 }

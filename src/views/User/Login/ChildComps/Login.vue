@@ -43,6 +43,9 @@
 <script>
 import PortalTemplate from "views/User/Login/PortalTemplate";
 
+import  jwt  from  'jsonwebtoken'
+import qs from 'qs'
+
 export default {
   name: "Login",
   components: {
@@ -70,15 +73,26 @@ export default {
       let self = this;
       this.$refs[userForm].validate((valid) => {
         if (valid) {
-          self.$store.dispatch('login', {username: self.user.username, password: self.user.password})
-              .then(response => {
-                window.sessionStorage.setItem("token", response.data.data)
-                self.$message.success(response.data.message)
-                self.$router.replace('/home')
-              })
-              .catch(response => {
-                self.$message.error(response.data.message)
-              })
+          self.axios.post('/login/user',qs.stringify({username: self.user.username, password: self.user.password}))
+          .then( res => {
+            let result = res.data;
+            if (result.code === 200) {
+              //获取token及用户信息
+              const token = result.data
+              //解析token中的信息
+              let str = jwt.decode(token)
+              const user = str.username;
+              //保持token在sessionStorage中
+              window.sessionStorage.setItem("token", token)
+              /*存储至vuex*/
+              self.$store.dispatch('setUser',user)
+              //登陆成功信息
+              self.$message.success(result.message)
+              self.$router.replace('/home')
+            } else {
+              self.$message.error(result.message)
+            }
+          })
         }
       });
     }

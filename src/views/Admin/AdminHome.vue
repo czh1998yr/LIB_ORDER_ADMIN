@@ -39,8 +39,11 @@
             <el-menu-item index="2-2">
               <router-link to="/labcontrol">实验室管理</router-link>
             </el-menu-item>
-            <el-menu-item index="2-2">
+            <el-menu-item index="2-3">
               <router-link to="/labstate">实验室状态管理</router-link>
+            </el-menu-item>
+            <el-menu-item index="2-4">
+              <router-link to="/userorders">用户预约管理</router-link>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>

@@ -13,7 +13,7 @@
          <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="uppwd">修改密码</el-dropdown-item>
+          <el-dropdown-item @click.native="uppwddialogVisible = true">修改密码</el-dropdown-item>
           <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -42,19 +42,111 @@
     </div>
     <!--    主体内容-->
     <div class="main" slot="main">
+      <el-dialog
+          title="修改密码"
+          :visible.sync="uppwddialogVisible"
+          width="30%"
+          :close-on-click-modal="false">
+        <el-form label-width="80px"
+                 :model="user"
+                 :rules="rules"
+                 ref="userForm">
+          <el-form-item prop="username" label-width="0px">
+            <el-input name="username"
+                      placeholder="请输入用户名"
+                      v-model.trim="username"
+                      prefix-icon="el-icon-user-solid"
+                      :disabled="true"/>
+          </el-form-item>
+          <el-form-item prop="email" label-width="0px">
+            <el-input name="email"
+                      placeholder="请输入申请时绑定的电子邮箱"
+                      v-model.trim="user.email"
+                      prefix-icon="el-icon-message"/>
+          </el-form-item>
+          <el-form-item prop="password" label-width="0px">
+            <el-input name="password"
+                      placeholder="请输入密码"
+                      v-model.trim="user.password"
+                      show-password
+                      prefix-icon="el-icon-lock"/>
+          </el-form-item>
+          <el-form-item prop="repassword" label-width="0px">
+            <el-input name="repassword"
+                      placeholder="请确认密码"
+                      v-model.trim="user.repassword"
+                      show-password
+                      prefix-icon="el-icon-lock"/>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="uppwddialogVisible = false">取 消</el-button>
+    <el-button type="success" @click="uppwd('userForm')">确 定</el-button>
+  </span>
+      </el-dialog>
       <router-view></router-view>
     </div>
+<!--    对话框区域-->
   </home>
 </template>
 
 <script>
 import Home from "components/common/Home";
+import qs from "qs";
 
 export default {
   name: "UserHome",
   data() {
     return {
-      date:new Date()
+      date:new Date(),
+      uppwddialogVisible:false,
+      user: {
+        username:'',
+        password:'',
+        email:'',
+      },
+      rules:{
+        password:[
+          { required: true, message: '请设置一个不少于六位数的密码', trigger: 'blur' ,min: 6 , max: 12},
+          {
+            validator:(rule, value, callback) => {
+              const reg = /^[A-Za-z0-9\u4e00-\u9fa5]+$/
+              if (!reg.test(value)) {
+                callback(new Error('密码中不允许有空格出现！！'))
+              } else {
+                callback()
+              }
+            }
+          }
+        ],
+        repassword:[
+          // { required: true, message: '请确认密码！', trigger: 'blur' },
+          { validator: (rule, value, callback) => {
+              if (value !== this.user.password) {
+                callback(new Error('两次输入密码不一致!'));
+              } else {
+                callback();
+              }
+            }, trigger: 'blur' }
+        ],
+        email:[
+          {required: true, message: '请输入邮箱', trigger: 'blur' },
+          {validator: (rule, value, callback) => {
+              const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+              if (!value) {
+                return callback(new Error('邮箱不能为空'))
+              }
+              setTimeout(() => {
+                if (mailReg.test(value)) {
+                  callback()
+                } else {
+                  callback(new Error('请输入正确的邮箱格式'))
+                }
+              }, 100)
+            }
+          }
+        ],
+      }
     }
   },
   components: {
@@ -83,6 +175,26 @@ export default {
       var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       // 拼接
       return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+    },
+    uppwd(userForm) {
+      self = this
+      self.$refs[userForm].validate((valid) => {
+        if (valid) {
+          self.axios.post('/uppwd',qs.stringify({username:self.username,password:self.user.password,
+            repassword:self.user.repassword,email:self.user.email}))
+          .then(res => {
+            if (res.data.code === 500203){
+              self.$message.error(res.data.message)
+            }else {
+              self.uppwddialogVisible = false
+              self.$message.success('密码修改成功，请牢记！')
+            }
+          })
+          .catch(err => {
+
+          })
+        }
+      });
     }
   },
   mounted() {

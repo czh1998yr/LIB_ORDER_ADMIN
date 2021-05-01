@@ -308,8 +308,8 @@ export default {
       self.$confirm('此操作将永久删除该实验室, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
+        confirmButtonClass:'sumbit',
         type: 'warning',
-        confirmButtonClass: 'btnFalses'
       }).then(() => {
         self.axios.post('/dellab?id=' + id)
             .then(response => {
