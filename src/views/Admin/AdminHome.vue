@@ -45,6 +45,9 @@
             <el-menu-item index="2-4">
               <router-link to="/userorders">用户预约管理</router-link>
             </el-menu-item>
+            <el-menu-item index="2-5">
+              <router-link to="/cancelorder">用户申请管理</router-link>
+            </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -125,17 +128,9 @@ a{
   text-decoration:none;
   color: #333333;
   font-size: 15px;
-  padding-left: 40px;
 }
-
 a:hover{
   cursor: pointer;
-}
-.aside ul{
-  padding: 0px;
-}
-.aside li{
-  padding: 0px !important;
 }
 .aside i{
   color: var(--color-tint);

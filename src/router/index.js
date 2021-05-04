@@ -8,6 +8,7 @@ import Welcome from "../views/User/ChildComps/Welcome";
 import UserHome from "../views/User/UserHome";
 import OrderControl from "../views/User/ChildComps/Order/OrderControl";
 import MyOrderControl from "../views/User/ChildComps/Order/MyOrderControl";
+import AllOrderList from "../views/User/ChildComps/Order/AllOrderList";
 // const UserHome = () => import('views/User/UserHome')
 // const OrderControl = () => import('views/User/ChildComps/Order/OrderControl')
 // const MyOrderControl = () => import('views/User/ChildComps/Order/MyOrderControl')
@@ -19,6 +20,7 @@ import UserControl from "../views/Admin/ChildComps/UserControl";
 import LabControl from "../views/Admin/ChildComps/LabControl";
 import LabStateControl from "../views/Admin/ChildComps/LabStateControl";
 import UserOrderControl from "../views/Admin/ChildComps/UserOrderControl";
+import CancelOrderControl from "../views/Admin/ChildComps/CancelOrderControl";
 // const AdminHome = () => import('@/views/Admin/AdminHome')
 // const UserControl = () => import('@/views/Admin/ChildComps/UserControl')
 // const LabControl = () => import('views/Admin/ChildComps/LabControl')
@@ -93,6 +95,10 @@ const router = new Router({
           path:'myorder',
           component: MyOrderControl
         },
+        {
+          path:'orderlist',
+          component: AllOrderList
+        }
       ]
     },
     //管理员
@@ -120,6 +126,10 @@ const router = new Router({
         {
           path: '/userorders',
           component: UserOrderControl
+        },
+        {
+          path: '/cancelorder',
+          component: CancelOrderControl
         }
       ]
     }

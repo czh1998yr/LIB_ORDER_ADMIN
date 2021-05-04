@@ -7,43 +7,46 @@
       <el-breadcrumb-item>实验室预约</el-breadcrumb-item>
     </el-breadcrumb>
     <!--    选择区-->
-    <div class="head">
-      <div class="left">
-      </div>
-      <div class="center">
-        <el-select v-model="chooseterm"
-                   placeholder="请选择学期"
-                   @change="chooseTerm($event)">
-          <el-option
-              v-for="item in term"
-              :key="item.title"
-              :label="item.title"
-              :value="item.state">
-          </el-option>
-        </el-select>
-        <el-divider direction="vertical"></el-divider>
-        <span>第</span>
-        <el-input-number v-model="chooseWeek"
-                         :max="MaxWeek"
-                         :min="1"
-                         controls-position="right"
-                         label="选择周数">
-        </el-input-number>
-        <span>周</span>
-
-        <el-divider direction="vertical"></el-divider>
-        <el-select v-model="labnum" placeholder="请选择实验室编号">
-          <el-option v-for="(labnum,index) in lablist" :key="index" :label="labnum.labnum" :value="labnum.labnum">
-          </el-option>
-        </el-select>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="success" @click="checkLab">查询</el-button>
-      </div>
-      <div class="right">
-      </div>
-    </div>
     <!--    卡片区-->
     <el-card class="card">
+      <div class="head">
+        <div class="left">
+        </div>
+        <div class="center">
+          <el-select v-model="chooseterm"
+                     placeholder="请选择学期"
+                     @change="chooseTerm($event)">
+            <el-option
+                v-for="item in term"
+                :key="item.title"
+                :label="item.title"
+                :value="item.state">
+            </el-option>
+          </el-select>
+          <el-divider direction="vertical"></el-divider>
+          <span>第</span>
+          <el-input-number v-model="chooseWeek"
+                           :max="MaxWeek"
+                           :min="1"
+                           controls-position="right"
+                           label="选择周数">
+          </el-input-number>
+          <span>周</span>
+
+          <el-divider direction="vertical"></el-divider>
+          <el-select v-model="labnum" placeholder="请选择实验室编号">
+            <el-option v-for="(labnum,index) in lablist" :key="index" :label="labnum.labnum" :value="labnum.labnum">
+            </el-option>
+          </el-select>
+          <el-divider direction="vertical"></el-divider>
+          <el-button type="success" @click="checkLab" size="small">查询</el-button>
+          <el-button type="success" @click="resting()" size="small">重置</el-button>
+          <el-button type="success" @click="toorderlist()" size="small">查看预约列表</el-button>
+        </div>
+        <div class="right">
+        </div>
+      </div>
+      <el-divider></el-divider>
       <el-table :data="ordersMessage" :stripe="true" border style="width: 100%">
         <el-table-column type="index"></el-table-column>
         <el-table-column label="日期" prop="date" width="110"></el-table-column>
@@ -178,15 +181,6 @@ export default {
         {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
         {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
       ],
-      newcolor: [
-        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
-      ],
     }
   },
   created() {
@@ -242,6 +236,7 @@ export default {
           .then(res => {
             self.ordersMessage = res.data.records
             self.orders = res.data.records
+            self.total = res.data.total
             for (let i = 0;i <7; i ++){
               self.ordersdate[i].date = self.orders[i].date
               self.ordersdate[i].username = self.username
@@ -267,7 +262,6 @@ export default {
             } else {
               self.checkorders();
               self.submitshow = true
-              self.total = res.data.total
             }
           }).catch(err => {
         console.log(err);
@@ -292,6 +286,7 @@ export default {
         }).then(() => {
           self.axios.post('/order',orders,{headers:{'Content-Type': 'application/json'}})
           .then(res => {
+            self.newcolor();
             self.adduserorders();
             self.checkLab();
             self.$message.success("恭喜您，预约成功！")
@@ -403,6 +398,23 @@ export default {
       this.orders[scope.$index].s12 = !this.orders[scope.$index].s12
       this.color[scope.$index].s12 = true
     },
+    newcolor() {
+      this.color = [
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+        {s1:false,s2:false,s3:false,s4:false,s5:false,s6:false,s7:false,s8:false,s9:false,s10:false,s11:false,s12:false},
+      ]
+    },
+    resting() {
+      location.reload();
+    },
+    toorderlist() {
+      this.$router.push("/home/orderlist")
+    }
   }
 }
 </script>
@@ -411,8 +423,6 @@ export default {
 .head {
   display: flex;
   height: 50px;
-  background-color: #fff;
-  box-shadow: 0px 0px 10px #e1e1e1;
   line-height: 50px;
   text-align: center;
 }

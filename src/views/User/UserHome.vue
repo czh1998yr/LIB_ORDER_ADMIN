@@ -31,9 +31,12 @@
           <template slot="title"><i class="el-icon-menu"></i>系统功能</template>
           <el-menu-item-group>
             <el-menu-item index="2-2">
-              <router-link to="/home/order">实验室预约</router-link>
+              <router-link to="/home/orderlist">查看预约列表</router-link>
             </el-menu-item>
             <el-menu-item index="2-3  ">
+              <router-link to="/home/order">实验室预约</router-link>
+            </el-menu-item>
+            <el-menu-item index="2-4  ">
               <router-link to="/home/myorder">我的预约</router-link>
             </el-menu-item>
           </el-menu-item-group>
@@ -231,17 +234,10 @@ a{
   text-decoration:none;
   color: #333333;
   font-size: 15px;
-  padding-left: 40px;
 }
 
 a:hover{
   cursor: pointer;
-}
-.aside ul{
-  padding: 0px;
-}
-.aside li{
-  padding: 0px !important;
 }
 .aside i{
   color: var(--color-tint);
