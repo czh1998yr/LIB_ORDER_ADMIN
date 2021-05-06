@@ -13,7 +13,14 @@ module.exports= {
         .set('assets', resolve('./src/assets'))
         .set('views', resolve('./src/views'))
         .set('network', resolve('./src/network'))
-    //注意 store 和 router 没必要配置
-        publicPath: './'
-  }
+  },
+  publicPath: process.env.NODE_ENV === 'production'
+      ? './'
+      : '/',
+  devServer: {
+    // history模式下的url会请求到服务器端，但是服务器端并没有这一个资源文件，就会返回404，所以需要配置这一项
+    historyApiFallback: {
+      index: '/index.html' //与output的publicPath
+    },
+  },
 }

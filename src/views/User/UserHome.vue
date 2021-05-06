@@ -24,20 +24,20 @@
         <el-submenu index="1">
           <template slot="title"><i class="el-icon-s-custom"></i>首页</template>
           <el-menu-item-group>
-            <el-menu-item index="1-1"><router-link to="/home/welcome">欢迎页</router-link></el-menu-item>
+            <el-menu-item index="1-1"><router-link to="/welcome">欢迎页</router-link></el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title"><i class="el-icon-menu"></i>系统功能</template>
           <el-menu-item-group>
             <el-menu-item index="2-2">
-              <router-link to="/home/orderlist">查看预约列表</router-link>
+              <router-link to="/orderlist">查看预约列表</router-link>
             </el-menu-item>
             <el-menu-item index="2-3  ">
-              <router-link to="/home/order">实验室预约</router-link>
+              <router-link to="/checkorder">实验室预约</router-link>
             </el-menu-item>
             <el-menu-item index="2-4  ">
-              <router-link to="/home/myorder">我的预约</router-link>
+              <router-link to="/myorder">我的预约</router-link>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>

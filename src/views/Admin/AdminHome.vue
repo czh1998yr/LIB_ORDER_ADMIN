@@ -43,7 +43,7 @@
               <router-link to="/labstate">实验室状态管理</router-link>
             </el-menu-item>
             <el-menu-item index="2-4">
-              <router-link to="/userorders">用户预约管理</router-link>
+              <router-link to="/userorders">用户预约列表</router-link>
             </el-menu-item>
             <el-menu-item index="2-5">
               <router-link to="/cancelorder">用户申请管理</router-link>

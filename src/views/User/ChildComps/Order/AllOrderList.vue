@@ -25,14 +25,22 @@
           </el-select>
           <el-divider direction="vertical"></el-divider>
           <span>第</span>
-          <el-input-number v-model="chooseWeek"
+          <el-input-number v-model="chooseWeek1"
                            :max="MaxWeek"
                            :min="1"
                            controls-position="right"
                            label="选择周数">
           </el-input-number>
           <span>周</span>
-
+          ——
+          <span>第</span>
+          <el-input-number v-model="chooseWeek2"
+                           :max="MaxWeek"
+                           :min="1"
+                           controls-position="right"
+                           label="选择周数">
+          </el-input-number>
+          <span>周</span>
           <el-divider direction="vertical"></el-divider>
           <el-select v-model="labnum" placeholder="请选择实验室编号">
             <el-option v-for="(labnum,index) in lablist" :key="index" :label="labnum.labnum" :value="labnum.labnum">
@@ -133,7 +141,7 @@
       <el-pagination
           :current-page="queryinfo.current"
           :page-size="queryinfo.size"
-          :page-sizes="[10, 15, 20, 25]"
+          :page-sizes="[14, 21, 28, 35]"
           :total="queryinfo.total"
           layout="total, sizes, prev, pager, next, jumper"
           @size-change="handleSizeChange"
@@ -159,7 +167,8 @@ export default {
       chooseterm: '',
       termstate: '',
       MaxWeek: 0,
-      chooseWeek: 0,
+      chooseWeek1: 0,
+      chooseWeek2: 0,
       chooseDay: 0,
       labnum:'',
       lablist: [],
@@ -167,7 +176,7 @@ export default {
       queryinfo: {
         major: '',
         current: 1,
-        size: 10,
+        size: 14,
         total: 0,
       },
       orderslist: [],
@@ -178,7 +187,6 @@ export default {
     }
   },
   created() {
-    this.getOrdersList()
     this.getterm()
     this.getlabs()
   },
@@ -224,13 +232,17 @@ export default {
     //按学期、周数获取时间列表
     checkorders() {
       self = this
-      self.axios.post('/checkorders', qs.stringify({
+      self.axios.post('/checkorder', qs.stringify({
         current: self.queryinfo.current,
-        size: self.queryinfo.size, week: self.chooseWeek,labnum: self.labnum
+        size: self.queryinfo.size,
+        week1: self.chooseWeek1,
+        week2: self.chooseWeek2,
+        labnum: self.labnum
       }))
           .then(res => {
+            console.log(res);
             self.orderslist = res.data.records
-            self.total = res.data.total
+            self.queryinfo.total = res.data.total
           })
           .catch(err => {
             self.$message.error("查询错误，请重试！")
@@ -256,24 +268,13 @@ export default {
       })
     },
     orderDialogClosed() {this.$refs.OrderFrom.resetFields()},
-    getOrdersList() {
-      let self = this
-      self.axios.post('/userorders', qs.stringify({current:self.queryinfo.current,size:self.queryinfo.size}))
-          .then(function (res) {
-            self.orderslist = res.data.records
-            self.queryinfo.total = res.data.total
-          })
-          .catch(function (error) {
-            self.$message.error('请求失败')
-          });
-    },
     handleSizeChange(newSize) {
       this.queryinfo.size = newSize
-      this.getOrdersList()
+      this.checkorders()
     },
     handleCurrentChange(newPage) {
       this.queryinfo.current = newPage
-      this.getOrdersList()
+      this.checkorders()
     },
     ByName() {
       self = this
@@ -290,7 +291,7 @@ export default {
       location.reload();
     },
     toorder() {
-      this.$router.push("/home/order")
+      this.$router.push("/checkorder")
     }
   }
 }

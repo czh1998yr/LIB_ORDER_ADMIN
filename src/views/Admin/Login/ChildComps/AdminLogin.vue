@@ -13,7 +13,8 @@
                     class="username"
                     name="username"
                     placeholder="请输入用户名"
-                    prefix-icon="el-icon-user-solid"/>
+                    prefix-icon="el-icon-user-solid"
+                    @keyup.enter.native="login('userForm')"/>
         </el-form-item>
         <el-form-item label-width="0px" prop="password">
           <el-input v-model="user.password"
@@ -21,7 +22,8 @@
                     name="password"
                     placeholder="请输入密码"
                     prefix-icon="el-icon-lock"
-                    show-password/>
+                    show-password
+                    @keyup.enter.native="login('userForm')"/>
         </el-form-item>
       </el-form>
       <div class="register-link">

@@ -93,6 +93,7 @@
       <div style="width: 100%;text-align: center; margin-top: 15px">
         <el-button type="success" @click="submit()" v-show="submitshow">提交</el-button>
         <el-button type="success" @click="resetting()" plain v-show="submitshow">重置</el-button>
+        <el-button type="success" @click="cleanorder()" plain v-show="submitshow">一键清空</el-button>
       </div>
       <!--        分页区域-->
       <el-pagination
@@ -309,6 +310,35 @@ export default {
     u12(scope) {
       this.orders[scope.$index].u12 = ''
     },
+    cleanorder() {
+      const order = this.orders
+      for (let i =0;i<order.length;i++){
+        order[i].s1=false
+        order[i].s2=false
+        order[i].s3=false
+        order[i].s4=false
+        order[i].s5=false
+        order[i].s6=false
+        order[i].s7=false
+        order[i].s8=false
+        order[i].s9=false
+        order[i].s10=false
+        order[i].s11=false
+        order[i].s12=false
+        order[i].u1=''
+        order[i].u2=''
+        order[i].u3=''
+        order[i].u4=''
+        order[i].u5=''
+        order[i].u6=''
+        order[i].u7=''
+        order[i].u8=''
+        order[i].u9=''
+        order[i].u10=''
+        order[i].u11=''
+        order[i].u12=''
+      }
+    }
   }
 }
 </script>

@@ -6,9 +6,10 @@ import {Message} from 'element-ui'
 import Login from "../views/User/Login/ChildComps/Login";
 import Welcome from "../views/User/ChildComps/Welcome";
 import UserHome from "../views/User/UserHome";
-import OrderControl from "../views/User/ChildComps/Order/OrderControl";
+// import OrderControl from "../views/User/ChildComps/Order/OrderControl";
 import MyOrderControl from "../views/User/ChildComps/Order/MyOrderControl";
 import AllOrderList from "../views/User/ChildComps/Order/AllOrderList";
+import OrdersControl from "../views/User/ChildComps/Order/OrdersControl";
 // const UserHome = () => import('views/User/UserHome')
 // const OrderControl = () => import('views/User/ChildComps/Order/OrderControl')
 // const MyOrderControl = () => import('views/User/ChildComps/Order/MyOrderControl')
@@ -18,7 +19,7 @@ import AdminWelcome from "../views/Admin/ChildComps/AdminWelcome";
 import AdminHome from "../views/Admin/AdminHome";
 import UserControl from "../views/Admin/ChildComps/UserControl";
 import LabControl from "../views/Admin/ChildComps/LabControl";
-import LabStateControl from "../views/Admin/ChildComps/LabStateControl";
+import LabStateControl from "../views/Admin/ChildComps/LabStateControl1";
 import UserOrderControl from "../views/Admin/ChildComps/UserOrderControl";
 import CancelOrderControl from "../views/Admin/ChildComps/CancelOrderControl";
 // const AdminHome = () => import('@/views/Admin/AdminHome')
@@ -75,30 +76,28 @@ const router = new Router({
     {
       path:'/home',
       component: UserHome,
-      meta: {
-        isLogin: false
-      },
+      redirect:'welcome',
       children: [
         {
-          path:'',
-          redirect:'welcome'
-        },
-        {
-          path:"welcome",
+          path:"/welcome",
           component:Welcome
         },
+        // {
+        //   path:'/order',
+        //   component: OrderControl
+        // },
         {
-          path:'order',
-          component: OrderControl
-        },
-        {
-          path:'myorder',
+          path:'/myorder',
           component: MyOrderControl
         },
         {
-          path:'orderlist',
+          path:'/orderlist',
           component: AllOrderList
-        }
+        },
+        {
+          path:'/checkorder',
+          component: OrdersControl
+        },
       ]
     },
     //管理员
@@ -171,7 +170,6 @@ Router.prototype.replace = function push (location, onResolve, onReject) {
   if (onResolve || onReject) return originalReplace.call(this, location, onResolve, onReject)
   return originalReplace.call(this, location).catch(err => err)
 }
-
 
 
 export default router;
