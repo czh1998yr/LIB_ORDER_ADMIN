@@ -11,7 +11,7 @@
       <!--        搜索与添加区域-->
       <el-row :gutter="20">
         <el-col :span="7">
-          <el-input v-model="queryinfo.major" clearable placeholder="请按专业名称搜索实验室" @clear="getLabList">
+          <el-input v-model="queryinfo.labname" clearable placeholder="按实验室名称搜索实验室" @clear="getLabList">
             <el-button slot="append" icon="el-icon-search" @click="getLabList"></el-button>
           </el-input>
         </el-col>
@@ -23,7 +23,6 @@
       <el-table :data="lablist" border stripe>
         <el-table-column type="index"></el-table-column>
         <el-table-column label="实验室名称" prop="labname"></el-table-column>
-        <el-table-column label="所属专业" prop="major"></el-table-column>
         <el-table-column label="实验室号" prop="labnum"></el-table-column>
         <el-table-column align="center" label="操作">
           <!-- eslint-disable-next-line -->
@@ -69,11 +68,6 @@
                     placeholder="请输入实验室名称"
                     prefix-icon="el-icon-s-home"/>
         </el-form-item>
-        <el-form-item label-width="0px" prop="major">
-          <el-input v-model.trim="lab.major"
-                    placeholder="请输入实验室所属专业"
-                    prefix-icon="el-icon-notebook-1"/>
-        </el-form-item>
         <el-form-item label-width="0px" prop="labnum">
           <el-input v-model.number="lab.labnum"
                     placeholder="请输入实验室编号"
@@ -98,14 +92,10 @@
                :model="editForm"
                :rules="rules"
                label-width="80px">
-        <el-form-item label="实验室名称：" label-width="110px" prop="name">
+        <el-form-item label="实验室名称：" label-width="110px" prop="labname">
           <el-input v-model.trim="editForm.labname"
                     prefix-icon="el-icon-s-home">
           </el-input>
-        </el-form-item>
-        <el-form-item label="所属专业：" label-width="110px" prop="major">
-          <el-input v-model.trim="editForm.major"
-                    prefix-icon="el-icon-notebook-1"/>
         </el-form-item>
         <el-form-item label="实验室编号：" label-width="110px" prop="labnum">
           <el-input v-model.number="editForm.labnum"
@@ -129,7 +119,7 @@ export default {
   data() {
     return {
       queryinfo: {
-        major: '',
+        labname: '',
         current: 1,
         size: 10
       },
@@ -202,8 +192,9 @@ export default {
     getLabList()
     {
       let self = this
-      self.axios.get('/lablist', {params: self.queryinfo})
+      self.axios.get('/lablistpage', {params: self.queryinfo})
           .then(function (response) {
+            console.log(response);
             self.lablist = response.data.records
             self.total = response.data.total
           })
@@ -235,7 +226,7 @@ export default {
       self.$refs[userForm].validate((valid) => {
         if (valid) {
           self.axios.post('/addlab', qs.stringify({
-            labname: self.lab.name,major: self.lab.major, labnum: self.lab.labnum
+            labname: self.lab.name, labnum: self.lab.labnum
           }))
               .then(res => {
                 let data = res.data
@@ -283,13 +274,11 @@ export default {
         if (valid) {
           let self = this
           self.axios.post('/reviselab', qs.stringify({
-            name: self.editForm.name,
-            major: self.editForm.major,
-            num: self.editForm.num,
+            labname: self.editForm.labname,
+            labnum: self.editForm.labnum,
             id: self.editForm.id
           }))
               .then(function (res) {
-                console.log(res);
                 self.$message.success(res.data.message)
                 self.editDialogVisible = false
                 self.getLabList()

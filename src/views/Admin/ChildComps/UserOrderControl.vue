@@ -59,7 +59,6 @@
         <el-table-column type="index"></el-table-column>
         <el-table-column label="实验室名称" prop="labname" width="200px"></el-table-column>
         <el-table-column label="实验室编号" prop="labnum" width="150px"></el-table-column>
-        <el-table-column label="所属专业" prop="major"></el-table-column>
         <el-table-column label="日期" prop="date" width="150px"></el-table-column>
         <el-table-column label="周次" prop="week" width="50px"></el-table-column>
         <el-table-column label="星期" prop="day" width="50px"></el-table-column>
@@ -222,7 +221,7 @@ export default {
       let self = this
       self.axios.get('/lablist', {params: self.queryinfo})
           .then(function (response) {
-            self.lablist = response.data.records
+            self.lablist = response.data
           })
           .catch(function (error) {
             self.$message.error('请求失败')

@@ -63,37 +63,37 @@
         <el-table-column label="实验室名称" width="120" prop="labname"></el-table-column>
         <el-table-column label="预约节数" class="checkbox">
           <template slot-scope="scope">
-            <label v-if="scope.row.s1 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第1节</label>
+            <label v-if="scope.row.s1 === true"><input type="checkbox" @change="u1(scope)" :checked="true">第1节</label>
             <label v-else @change="u1(scope)"><input type="checkbox">第1节</label>
 
-            <label v-if="scope.row.s2 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第2节</label>
+            <label v-if="scope.row.s2 === true"><input type="checkbox" @change="u2(scope)" :checked="true">第2节</label>
             <label v-else @change="u2(scope)"><input type="checkbox">第2节</label>
 
-            <label v-if="scope.row.s3 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第3节</label>
+            <label v-if="scope.row.s3 === true"><input type="checkbox" @change="u3(scope)" :checked="true">第3节</label>
             <label v-else @change="u3(scope)"><input type="checkbox">第3节</label>
 
-            <label v-if="scope.row.s4 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第4节</label>
+            <label v-if="scope.row.s4 === true"><input type="checkbox" @change="u4(scope)" :checked="true">第4节</label>
             <label v-else @change="u4(scope)"><input type="checkbox">第4节</label>
 
-            <label v-if="scope.row.s5 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第5节</label>
+            <label v-if="scope.row.s5 === true"><input type="checkbox" @change="u5(scope)" :checked="true">第5节</label>
             <label v-else @change="u5(scope)"><input type="checkbox">第5节</label>
 
-            <label v-if="scope.row.s6 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第6节</label>
+            <label v-if="scope.row.s6 === true"><input type="checkbox" @change="u6(scope)" :checked="true">第6节</label>
             <label v-else @change="u6(scope)"><input type="checkbox">第6节</label>
 
-            <label v-if="scope.row.s7 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第7节</label>
+            <label v-if="scope.row.s7 === true"><input type="checkbox" @change="u7(scope)" :checked="true">第7节</label>
             <label v-else @change="u7(scope)"><input type="checkbox">第7节</label>
 
-            <label v-if="scope.row.s8 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第8节</label>
+            <label v-if="scope.row.s8 === true"><input type="checkbox" @change="u8(scope)" :checked="true">第8节</label>
             <label v-else @change="u8(scope)"><input type="checkbox">第8节</label>
 
-            <label v-if="scope.row.s9 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第9节</label>
+            <label v-if="scope.row.s9 === true"><input type="checkbox" @change="u9(scope)" :checked="true">第9节</label>
             <label v-else  @change="u9(scope)"><input type="checkbox">第9节</label>
 
-            <label v-if="scope.row.s10 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第10节</label>
+            <label v-if="scope.row.s10 === true"><input type="checkbox" @change="u10(scope)" :checked="true">第10节</label>
             <label v-else @change="u10(scope)"><input type="checkbox">第10节</label>
 
-            <label v-if="scope.row.s11 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第11节</label>
+            <label v-if="scope.row.s11 === true"><input type="checkbox" @change="u11(scope)" :checked="true">第11节</label>
             <label v-else @change="u11(scope)"><input type="checkbox">第11节</label>
 
             <label v-if="scope.row.s12 === true"><input type="checkbox" @change="u12(scope)" :checked="true">第12节</label>
@@ -207,7 +207,7 @@ export default {
       let self = this
       self.axios.get('/lablist', {params: self.queryinfo})
           .then(function (response) {
-            self.lablist = response.data.records
+            self.lablist = response.data
           })
           .catch(function (error) {
             self.$message.error('请求失败')

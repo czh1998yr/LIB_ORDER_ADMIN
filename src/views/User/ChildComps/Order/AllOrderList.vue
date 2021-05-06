@@ -58,9 +58,8 @@
       <!--      用户列表去-->
       <el-table :data="orderslist" border stripe>
         <el-table-column type="index"></el-table-column>
-        <el-table-column label="实验室名称" prop="labname" width="200px"></el-table-column>
+        <el-table-column label="实验室名称" prop="labname"></el-table-column>
         <el-table-column label="实验室编号" prop="labnum" width="150px"></el-table-column>
-        <el-table-column label="所属专业" prop="major"></el-table-column>
         <el-table-column label="日期" prop="date" width="150px"></el-table-column>
         <el-table-column label="周次" prop="week" width="50px"></el-table-column>
         <el-table-column label="星期" prop="day" width="50px"></el-table-column>
@@ -194,7 +193,7 @@ export default {
     //获取学期
     getterm() {
       self = this
-      self.axios.get('/getterm')
+      this.axios.get('/getterm')
           .then(res => {
             self.term = res.data
           })
@@ -210,7 +209,7 @@ export default {
     //获取该学期一共有多少周
     getweek() {
       self = this
-      self.axios.post('/getweek', qs.stringify({termstate: self.termstate}))
+      this.axios.post('/getweek', qs.stringify({termstate: self.termstate}))
           .then(res => {
             self.MaxWeek = res.data.length
           })
@@ -221,9 +220,9 @@ export default {
     //获取实验室列表
     getlabs() {
       let self = this
-      self.axios.get('/lablist', {params: self.queryinfo})
+      this.axios.get('/lablist', {params: self.queryinfo})
           .then(function (response) {
-            self.lablist = response.data.records
+            self.lablist = response.data
           })
           .catch(function (error) {
             self.$message.error('请求失败')
@@ -232,7 +231,7 @@ export default {
     //按学期、周数获取时间列表
     checkorders() {
       self = this
-      self.axios.post('/checkorder', qs.stringify({
+      this.axios.post('/checkorder', qs.stringify({
         current: self.queryinfo.current,
         size: self.queryinfo.size,
         week1: self.chooseWeek1,
@@ -240,7 +239,6 @@ export default {
         labnum: self.labnum
       }))
           .then(res => {
-            console.log(res);
             self.orderslist = res.data.records
             self.queryinfo.total = res.data.total
           })
@@ -251,7 +249,7 @@ export default {
     // 根据实验室编号查询实验室信息
     checkLab() {
       self = this
-      self.axios.post('/checkLabByWeek', qs.stringify({
+      this.axios.post('/checkLabByWeek', qs.stringify({
         week: self.chooseWeek,
         size: self.queryinfo.size,
         current: self.queryinfo.current
@@ -278,13 +276,13 @@ export default {
     },
     ByName() {
       self = this
-      self.axios.post("nameorders",qs.stringify({current:self.queryinfo.current,size:self.queryinfo.size,username:self.userinfo.name}))
+      this.axios.post("nameorders",qs.stringify({current:self.queryinfo.current,size:self.queryinfo.size,username:self.userinfo.name}))
       .then( res => {
         self.orderslist = res.data.records
         self.queryinfo.total = res.data.total
       })
       .catch(err => {
-        self.$message.error("查询失败，请稍后重试！")
+        this.$message.error("查询失败，请稍后重试！")
       })
     },
     resting() {

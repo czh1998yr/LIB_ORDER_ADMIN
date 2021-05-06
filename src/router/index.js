@@ -10,6 +10,7 @@ import UserHome from "../views/User/UserHome";
 import MyOrderControl from "../views/User/ChildComps/Order/MyOrderControl";
 import AllOrderList from "../views/User/ChildComps/Order/AllOrderList";
 import OrdersControl from "../views/User/ChildComps/Order/OrdersControl";
+import SchoolCalendar from "../components/common/SchoolCalendar";
 // const UserHome = () => import('views/User/UserHome')
 // const OrderControl = () => import('views/User/ChildComps/Order/OrderControl')
 // const MyOrderControl = () => import('views/User/ChildComps/Order/MyOrderControl')
@@ -83,8 +84,8 @@ const router = new Router({
           component:Welcome
         },
         // {
-        //   path:'/order',
-        //   component: OrderControl
+        //   path:'/sc',
+        //   component: SchoolCalendar
         // },
         {
           path:'/myorder',

@@ -206,7 +206,7 @@ export default {
       let self = this
       self.axios.get('/lablist', {params: self.queryinfo})
           .then(function (response) {
-            self.lablist = response.data.records
+            self.lablist = response.data
           })
           .catch(function (error) {
             self.$message.error('请求失败')

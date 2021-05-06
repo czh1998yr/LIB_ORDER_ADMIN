@@ -8,15 +8,16 @@
     </el-breadcrumb>
     <!--  卡片区-->
     <!--  欢迎词卡片区-->
-    <el-card shadow="hover">
-      <div class="head">
-        <h2>欢迎使用实验室预约系统!</h2>
-        <p>在这里，你可以查看实验室状态，并且预约实验室！</p>
-      </div>
-    </el-card>
+
     <!--  个人信息卡片区-->
     <div class="message">
       <div class="card">
+            <el-card shadow="hover">
+              <div class="head">
+                <h2>欢迎使用实验室预约系统!</h2>
+                <p>在这里，你可以查看实验室状态，并且预约实验室！</p>
+              </div>
+            </el-card>
         <el-card shadow="hover" class="card_message">
           <p>个人信息 <i class="el-icon-user-solid"></i> </p>
           <el-divider></el-divider>
@@ -57,16 +58,22 @@
       <div class="message_center"></div>
       <!--  日历区-->
       <div class="calendar">
-        <el-calendar>
-        </el-calendar>
+        <el-card shadow="hover" style="text-align: center">
+          <p style="font-weight: bold">桂林电子科技大学信息科技学院2020-2021学年第二学期教学日历</p>
+        <school-calendar></school-calendar>
+        </el-card>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import SchoolCalendar from "../../../components/common/SchoolCalendar";
 export default {
   name: "Welcome",
+  components: {
+    SchoolCalendar
+  },
   computed: {
     username() {
       return this.$store.getters.getUser
@@ -76,7 +83,6 @@ export default {
 </script>
 
 <style scoped>
-
 .head h2 {
   font-size: 35px;
   line-height: 50px;
@@ -113,9 +119,7 @@ export default {
   width: 49.5%;
 }
 .calendar{
-  width: 49.5%;
-  height: 1px;
-  margin-top: 5px;
+  width: 50%;
 }
 .message_center{
   flex: 1;

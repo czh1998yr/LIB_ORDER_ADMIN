@@ -435,9 +435,6 @@ export default {
 .center span {
   padding: 0 10px 0 10px;
 }
-.card {
-  margin-top: 15px;
-}
 .card label{
   padding: 0 15px 0 15px;
   font-size: 15px;
