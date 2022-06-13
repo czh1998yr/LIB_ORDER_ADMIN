@@ -13,6 +13,7 @@
     "element-ui": "^2.15.1",
     "font-awesome": "^4.7.0",
     "js-md5": "^0.7.3",
+    "jsonwebtoken": "^8.5.1",
     "vue": "^2.6.11",
     "vue-axios": "^3.2.4",
     "vue-router": "^3.5.1",
@@ -25,8 +26,6 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "node-sass": "^5.0.0",
-    "sass-loader": "^11.0.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
